@@ -1,6 +1,7 @@
 package Service;
 import java.util.*;
 import Bean.*;
+import DAO.*;
 
 public class Service_Pedido {
 
@@ -30,6 +31,8 @@ public class Service_Pedido {
 		System.out.println();
 		
 		/******Algoritmo*******/
+		
+		DAO_Vuelo vuelo_DAO = new DAO_Vuelo();
 		
 		Vuelo base = new Vuelo(0,1,9,new Date(),new Date(),0);
 		
