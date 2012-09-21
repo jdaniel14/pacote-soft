@@ -32,12 +32,7 @@ public class Main {
 			System.err.println("Error");
 		}
 		
-		Vuelo v = new Vuelo();
-		Ciudad c = new Ciudad(2,"Peru");
-		Ciudad d = new Ciudad(1,"Chile");
-		
-		System.out.println(c.ciudad_nombre);
-		System.out.println(d.ciudad_id);
+	
 	}
 
 }
