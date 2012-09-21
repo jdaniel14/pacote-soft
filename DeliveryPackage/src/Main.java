@@ -8,11 +8,13 @@ public class Main {
 		Connection conn = null;
 		try{
 			String username="root";
-			String password="jose";
+			String password="123";
 			String database="mydb";
 			
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql:///"+database,username,password);
+			
+			/*
 			if(!conn.isClosed()){
 					Statement s = conn.createStatement();
 				s.executeQuery("SELECT * FROM Peru");
@@ -24,12 +26,18 @@ public class Main {
 				}
 				rs.close();
 				s.close();
-			}
+			}*/
+			
 		}catch(Exception e){
 			System.err.println("Error");
 		}
 		
+		Vuelo v = new Vuelo();
+		Ciudad c = new Ciudad(2,"Peru");
+		Ciudad d = new Ciudad(1,"Chile");
 		
+		System.out.println(c.ciudad_nombre);
+		System.out.println(d.ciudad_id);
 	}
 
 }
