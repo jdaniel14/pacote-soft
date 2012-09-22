@@ -37,23 +37,36 @@ public class Service_Pedido {
 		Vuelo lectorVuelo;
 		
 		System.out.println();
-		System.out.println("Posibilidad de ruta a seguir");
+		System.out.println("*Posibilidad de ruta a seguir*");
+		System.out.println();
 		
 		for(int i = 0; i < listaDeVuelos.size();i++){
 			lectorVuelo = (Vuelo)listaDeVuelos.get(i);
-			System.out.println("Vuelo #" + i);
+			System.out.println("->Vuelo #" + i);
 			imprimirVuelo(lectorVuelo);
 		}
 		
 		System.out.println();
-		System.out.println("Fin de Posibilidad de ruta a seguir");
+		System.out.println("*Fin de Posibilidad de ruta a seguir*");
 		System.out.println();
 		
 	}
 	
+	public static Vuelo copiarVuelo(Vuelo vuelo){
+		return new Vuelo(vuelo.vuelo_id,vuelo.ciudad_ini,vuelo.ciudad_fin, new Date(), new Date(), vuelo.capacidad);
+	}
 	
-	
-	
+	public static ArrayList copiarListaVuelos(ArrayList lista){
+		
+		ArrayList devolver = new ArrayList();
+		
+		for(int i = 0; i < lista.size();i++){
+			Vuelo flight = (Vuelo)lista.get(i);
+			devolver.add(copiarVuelo(flight));
+		}
+		
+		return devolver;
+	}
 	
 	public static void buscarRuta() throws SQLException{
 		
@@ -71,15 +84,16 @@ public class Service_Pedido {
 		
 		//imprimirRuta(imprimeme);
 		
-		Vuelo base = new Vuelo(0,1,3,new Date(),new Date(),0);
+		Vuelo base = new Vuelo(0,1,5,new Date(),new Date(),0);
 		
 		Integer ICiudad = base.ciudad_ini;
 		Integer FCiudad = base.ciudad_fin;
 		
 		Integer condicion = 0;
 		
-		Vuelo lectorVuelo;
+		//Vuelo lectorVuelo;
 		Vuelo lectorVueloLista;
+		Vuelo lectorVuelo;
 		
 		Vuelo insertVuelo;
 		
@@ -102,6 +116,7 @@ public class Service_Pedido {
 			/*Mientras que no se haya leido toda la tabla vuelos*/
 			
 			lectorVuelo = listaVuelos.get(i);
+		
 			/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
 			
 			/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
@@ -109,7 +124,7 @@ public class Service_Pedido {
 				
 				ArrayList opcionR = new ArrayList();
 				
-				insertVuelo = new Vuelo(lectorVuelo.vuelo_id,lectorVuelo.ciudad_ini,lectorVuelo.ciudad_fin,new Date(),new Date(),0);
+				insertVuelo = lectorVuelo;
 				
 				opcionR.add(insertVuelo);
 				rutas.add(opcionR);
@@ -128,12 +143,14 @@ public class Service_Pedido {
 			//Cojo el ultimo vuelo en el que me quede de la ruta que cree
 			int pos = lectorListaRutas.size() - 1;			
 			lectorVueloLista = (Vuelo)lectorListaRutas.get(pos);
+			lectorListaRutas.remove(pos);
 			
 			
 			lectorCiudadFin = lectorVueloLista.ciudad_fin;
 			
 			if (lectorCiudadFin == FCiudad){
-				System.out.println("Ruta encontrada");
+				System.out.println("****Ruta encontrada****");
+				lectorListaRutas.add(lectorVueloLista);
 				imprimirRuta(lectorListaRutas);
 				
 			}
@@ -143,19 +160,18 @@ public class Service_Pedido {
 				
 				lectorVuelo = listaVuelos.get(i);
 				
+				
 				/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
 				
 				/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
 				if (lectorCiudadFin == lectorVuelo.ciudad_ini){
 					
-					insertVuelo = new Vuelo(lectorVuelo.vuelo_id,lectorVuelo.ciudad_ini,lectorVuelo.ciudad_fin,new Date(),new Date(),0);
+					ArrayList opcionR;
+					opcionR = copiarListaVuelos(lectorListaRutas);
 					
-					lectorListaRutas.add(insertVuelo);
-					ArrayList opcionR = new ArrayList();
+					opcionR.add(copiarVuelo(lectorVueloLista));
+					opcionR.add(copiarVuelo(lectorVuelo));
 					
-					opcionR = (ArrayList)lectorListaRutas.clone();
-					
-					//opcionR.add(lectorVuelo);
 					rutas.add(opcionR);
 				}
 				
