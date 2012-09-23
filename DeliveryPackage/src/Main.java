@@ -5,7 +5,7 @@ public class Main {
 	
 	public static void main(String [] args){
 		
-		Service_Pedido ruta = new Service_Pedido();
+		Service_Pedido2 ruta = new Service_Pedido2();
 		
 		ruta.buscarRuta();
 	

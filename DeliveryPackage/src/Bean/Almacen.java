@@ -1,9 +1,9 @@
 package Bean;
 
 public class Almacen {
-	private int almacen_id;
-	private int almacen_capacidad;
-	private int almacen_capacidad_actual;
+	public int almacen_id;
+	public int almacen_capacidad;
+	public int almacen_capacidad_actual;
 	
 	public Almacen(int id, int capacidad, int actual){
 		this.almacen_id = id;

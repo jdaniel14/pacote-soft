@@ -16,5 +16,6 @@ public class Vuelo {
 		this.ciudad_fin = c_fin;
 		this.hora_inicio = hr_ini;
 		this.hora_fin = hr_fin;
+		this.capacidad = capac;
 	}
 }
