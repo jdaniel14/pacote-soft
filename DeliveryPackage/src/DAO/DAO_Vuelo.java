@@ -23,11 +23,11 @@ public class DAO_Vuelo {
 		while(rs.next()){
 			
 			int vuelo_id=rs.getInt(1);
-			int ciudad_ini=rs.getInt(2);
-			int ciudad_fin=rs.getInt(3);
-			Date hora_inicio=rs.getTime(4);
-			Date hora_fin=rs.getTime(5);
-			int capacidad=rs.getInt(6);
+			int ciudad_ini=rs.getInt(7);
+			int ciudad_fin=rs.getInt(8);
+			Date hora_inicio=rs.getTimestamp(2);
+			Date hora_fin=rs.getTimestamp(3);
+			int capacidad=rs.getInt(4);
 			
 			Vuelo vuelo = new Vuelo(vuelo_id, ciudad_ini, ciudad_fin, hora_inicio, hora_fin, capacidad);
 			listaVuelos.add(vuelo);
