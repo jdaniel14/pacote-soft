@@ -28,6 +28,7 @@ public class DAO_Vuelo {
 			Date hora_inicio=rs.getTimestamp(2);
 			Date hora_fin=rs.getTimestamp(3);
 			int capacidad=rs.getInt(4);
+			System.out.println("capac: " + capacidad);
 			
 			Vuelo vuelo = new Vuelo(vuelo_id, ciudad_ini, ciudad_fin, hora_inicio, hora_fin, capacidad);
 			listaVuelos.add(vuelo);

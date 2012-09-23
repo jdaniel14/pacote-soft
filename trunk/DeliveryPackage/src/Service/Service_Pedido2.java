@@ -1,9 +1,10 @@
 package Service;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import Bean.Almacen;
+import Bean.BreadthFirstPaths;
+import Bean.Grafo;
 import Bean.Ruta;
 import Bean.Vuelo;
 import DAO.DAO_Almacen;
@@ -20,7 +21,7 @@ public class Service_Pedido2 {
 	public void ReservarAlmacen(){}
 	public void ReservarAvion(){}
 	
-	public List<Ruta> buscarRuta(){
+	public void buscarRuta(){
 		dao_almacen = new DAO_Almacen();
 		dao_vuelo = new DAO_Vuelo();
 		
@@ -28,15 +29,23 @@ public class Service_Pedido2 {
 		try {
 			List <Almacen> listAlmacen = dao_almacen.ListarAlmacenes();
 			List <Vuelo> listVuelo = dao_vuelo.ListarVuelos();
-			//Grafo grafo = new Grafo(listAlmacen, listVuelo);
-			//listaRutas = grafo.rutas();
+			System.out.println("-->" + listVuelo.size());
+			for(int i=0; i<listVuelo.size(); i++){
+				Vuelo vuelo = listVuelo.get(i);
+				System.out.println(vuelo.ciudad_ini + "->" + vuelo.ciudad_fin);
+				
+			}
 			
+			Grafo grafo = new Grafo(listAlmacen, listVuelo);
+			grafo.rutas();
+			BreadthFirstPaths busq = new BreadthFirstPaths(grafo, 1, 3);
+			//busq.bfs();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return listaRutas;
+		//return listaRutas;
 	}
 	
 	

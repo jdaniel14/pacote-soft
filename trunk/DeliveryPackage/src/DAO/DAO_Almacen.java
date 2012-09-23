@@ -13,7 +13,7 @@ public class DAO_Almacen {
 		conexion.abrirConexion();
 		
 		Statement s = conexion.conn.createStatement();
-		s.executeQuery("SELECT * FROM Almacen");
+		s.executeQuery("SELECT * FROM Almacén");
 		ResultSet rs = s.getResultSet();
 		
 		while(rs.next()){

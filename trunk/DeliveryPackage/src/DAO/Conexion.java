@@ -14,7 +14,7 @@ public class Conexion{
 		//conn = null;
 		try{
 			String username="root";
-			String password="";
+			String password="jose";
 			String database="mydb";
 			
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
