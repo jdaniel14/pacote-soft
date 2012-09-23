@@ -13,15 +13,15 @@ public class DAO_Almacen {
 		conexion.abrirConexion();
 		
 		Statement s = conexion.conn.createStatement();
-		s.executeQuery("SELECT * FROM Almacén");
+		s.executeQuery("SELECT * FROM Almacen");
 		ResultSet rs = s.getResultSet();
 		
 		while(rs.next()){
 			int id=rs.getInt(1);
 			int capacidad=rs.getInt(2);
-			int actual=rs.getInt(3);
+			//int actual=rs.getInt(3);
 			
-			Almacen almacen = new Almacen(id, capacidad, actual);
+			Almacen almacen = new Almacen(id, capacidad/*, actual*/);
 			listaAlmacenes.add(almacen);
 		}
 		

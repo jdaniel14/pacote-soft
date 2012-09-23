@@ -5,9 +5,9 @@ public class Almacen {
 	public int almacen_capacidad;
 	public int almacen_capacidad_actual;
 	
-	public Almacen(int id, int capacidad, int actual){
+	public Almacen(int id, int capacidad/*, int actual*/){
 		this.almacen_id = id;
 		this.almacen_capacidad_actual = capacidad;
-		this.almacen_capacidad_actual = actual;
+		//this.almacen_capacidad_actual = actual;
 	}
 }
