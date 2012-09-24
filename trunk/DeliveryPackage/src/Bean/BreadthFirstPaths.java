@@ -13,21 +13,22 @@ public class BreadthFirstPaths {
     private int[] distTo;      // distTo[v] = number of edges shortest s-v path
 
     // single source
-    public BreadthFirstPaths(Grafo G, int ini, int fin) {
-        marked = new boolean[G.getV()];
-        distTo = new int[G.getV()];
-        edgeTo = new int[G.getV()];
-        bfs(G, ini, fin);
+    public BreadthFirstPaths() {
+        
 
     }
 
     // BFS from single source
-    public void bfs(Grafo G, int ini, int fin) {
+    public List<Ruta> bfs(Grafo G, Envio envio) {
+    	List<Ruta> listaRutas = new ArrayList<Ruta>();
         Queue< List<Vuelo> > q = new LinkedList< List<Vuelo> >();
         for (int v = 0; v < G.getV(); v++) distTo[v] = INFINITY;
-        distTo[ini] = 0;
-        marked[ini] = true;
+ //       distTo[ini] = 0;
+ //       marked[ini] = true;
  
+        int ini = envio.almacen_partida;
+        int fin = envio.almacen_entrega;
+        
         int inicial = (Integer) G.map.get(ini);
         //int finn  = (Integer) G.map.get(fin);
         
@@ -43,10 +44,15 @@ public class BreadthFirstPaths {
         	int tam = path.size();
         	int dest_aux = path.get(tam-1).ciudad_fin;
         	//System.out.println("destino auxiliar : " + dest_aux + " final : " + fin);
+        	int cap;
         	
         	if(dest_aux == fin){
-        		System.out.println("Se alcanz— destino " + tam);
-        		imprimir_path(path);
+        		System.out.println("Se alcanzo destino " + tam);
+        		cap = imprimir_path(path);
+        		if(cap>0){
+        			Ruta ruta = new Ruta(path, cap);
+        			listaRutas.add(ruta);
+        		}
         		System.out.println("---------------------------");
         	}
         	//else{
@@ -64,7 +70,7 @@ public class BreadthFirstPaths {
                 }
             }
         }
-        
+        return listaRutas;
     }
     
     private boolean cumple_tiempo(Vuelo vv, Vuelo vf){
@@ -96,16 +102,16 @@ public class BreadthFirstPaths {
         return distTo[v];
     }
 
-    public void imprimir_path(List <Vuelo> path){
+    public int  imprimir_path(List <Vuelo> path){
     	
-    	int tot=0;
+    	int tot=INFINITY;
     	for(int k=0; k<path.size(); k++){
 			System.out.print(" " + path.get(k).vuelo_id + " -> " + path.get(k).capacidad + " -- ");
-			tot += path.get(k).capacidad;
+			tot = Math.min(tot,path.get(k).capacidad);
 			
 		}
     	System.out.print(" -> " + tot);
 		System.out.println();
-    	
+    	return tot;
     }
 }

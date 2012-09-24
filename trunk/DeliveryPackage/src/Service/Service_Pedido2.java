@@ -4,6 +4,7 @@ import java.util.List;
 
 import Bean.Almacen;
 import Bean.BreadthFirstPaths;
+import Bean.Envio;
 import Bean.Grafo;
 import Bean.Ruta;
 import Bean.Vuelo;
@@ -21,11 +22,13 @@ public class Service_Pedido2 {
 	public void ReservarAlmacen(){}
 	public void ReservarAvion(){}
 	
-	public void buscarRuta(){
+	public List <Ruta> buscarRuta(){
 		dao_almacen = new DAO_Almacen();
 		dao_vuelo = new DAO_Vuelo();
+		Envio envio = new Envio();
 		
 		List <Ruta> listaRutas = null;
+		List <Ruta> listaRutasDev = null;
 		try {
 			List <Almacen> listAlmacen = dao_almacen.ListarAlmacenes();
 			List <Vuelo> listVuelo = dao_vuelo.ListarVuelos();
@@ -38,14 +41,23 @@ public class Service_Pedido2 {
 			
 			Grafo grafo = new Grafo(listAlmacen, listVuelo);
 			grafo.rutas();
-			BreadthFirstPaths busq = new BreadthFirstPaths(grafo, 1, 3);
-			//busq.bfs();
+			BreadthFirstPaths busq = new BreadthFirstPaths();
+			listaRutas = busq.bfs(grafo, envio);
+			
+			int capac = envio.cantidad;
+			for(int i=0; i<listaRutas.size(); i++){
+				
+				
+			}
+			
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//return listaRutas;
+		return listaRutasDev;
 	}
 	
 	

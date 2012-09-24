@@ -11,6 +11,8 @@ public class Envio {
 	public Date fecha_entrega; 
 	public String estado; 
 	
+	public Envio(){}
+	
 	public Envio(int id, int alm_part, int alm_entr, int cant, Date registro, Date entrega, String est){
 		this.id = id;
 		this.almacen_partida = alm_part;
@@ -20,4 +22,5 @@ public class Envio {
 		this.fecha_entrega = entrega;
 		this.estado = est;
 	}
+	
 }

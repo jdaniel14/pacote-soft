@@ -6,7 +6,7 @@ import DAO.*;
 
 public class Service_Pedido {
 
-	
+	/*
 	public void ConfirmarEnvio(){
 		ReservarAlmacen();
 		ReservarAvion();
@@ -19,9 +19,9 @@ public class Service_Pedido {
 	
 	public static void imprimirVuelo(Vuelo flight){
 
-		/*Imprime los datos del vuelo*/
+		Imprime los datos del vuelo
 		
-		System.out.println("Nœmero de vuelo: " + flight.vuelo_id);
+		System.out.println("Nï¿½mero de vuelo: " + flight.vuelo_id);
 		System.out.println("Ciudad de Inicio: " + flight.ciudad_ini);
 		System.out.println("Ciudad final: " + flight.ciudad_fin);
 		System.out.println("Hora de partida: "  + (flight.hora_inicio).toString());
@@ -32,7 +32,7 @@ public class Service_Pedido {
 	
 	public static void imprimirRuta(ArrayList listaDeVuelos){
 		
-		/*Imprime una lista de vuelos*/
+		Imprime una lista de vuelos
 		
 		Vuelo lectorVuelo;
 		
@@ -73,7 +73,7 @@ public class Service_Pedido {
 		System.out.println("Corriendo Algoritmo...");
 		System.out.println();
 		
-		/******Algoritmo*******/
+		*//******Algoritmo*******//*
 		
 		DAO_Vuelo vuelo_DAO = new DAO_Vuelo();
 		List <Vuelo> listaVuelos;
@@ -108,18 +108,18 @@ public class Service_Pedido {
 		
 		//+++++OJO; Verificar si el usuario escribe viajar de 1 a 1 (mismo lugar)
 		
-		/*Inicializo la lista con los primeros vuelos que deberian iniciar
+		Inicializo la lista con los primeros vuelos que deberian iniciar
 		 * Puedo utilizar este primer bucle para crear el grafo
 		 * el cual haria mas eficiente el algoritmo
-		 */
+		 
 		for(int i = 0; i < listaVuelos.size(); i++){
-			/*Mientras que no se haya leido toda la tabla vuelos*/
+			Mientras que no se haya leido toda la tabla vuelos
 			
 			lectorVuelo = listaVuelos.get(i);
 		
-			/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
+			Verifico si el vuelo tiene como inicio "leerCiudad"
 			
-			/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
+			si la tiene, agrego a la lista, sino sigo denuevo con el bucle
 			if (ICiudad == lectorVuelo.ciudad_ini){
 				
 				ArrayList opcionR = new ArrayList();
@@ -156,14 +156,14 @@ public class Service_Pedido {
 			}
 			
 			for(int i = 0; i < listaVuelos.size(); i++){
-				/*Mientras que no se haya leido toda la tabla vuelos*/
+				Mientras que no se haya leido toda la tabla vuelos
 				
 				lectorVuelo = listaVuelos.get(i);
 				
 				
-				/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
+				Verifico si el vuelo tiene como inicio "leerCiudad"
 				
-				/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
+				si la tiene, agrego a la lista, sino sigo denuevo con el bucle
 				if (lectorCiudadFin == lectorVuelo.ciudad_ini){
 					
 					ArrayList opcionR;
@@ -182,7 +182,7 @@ public class Service_Pedido {
 		}
 		
 		
-		/******Fin*******/
+		*//******Fin*******//*
 		
 		System.out.println();
 		System.out.println("...Fin Algoritmo");
@@ -190,6 +190,6 @@ public class Service_Pedido {
 		
 		
 	}
-	
+	*/
 	
 }
