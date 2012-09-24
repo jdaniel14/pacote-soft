@@ -9,4 +9,11 @@ public class Ruta {
 		this.listaVuelos = lista;
 		this.capacidad = capac;
 	}
+	public Ruta(Ruta ruta){
+		this.listaVuelos = ruta.listaVuelos;
+		this.capacidad = ruta.capacidad;
+	}
+	public boolean excluyente(List<Ruta> listaRutas){
+		return true;
+	}
 }
