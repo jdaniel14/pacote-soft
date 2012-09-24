@@ -14,14 +14,14 @@ public class Conexion{
 		//conn = null;
 		try{
 			String username="root";
-			String password="jose";
-			String database="mydb";
+			String password="josedaniel";
+			String database="dp1";
 			
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql:///"+database, username, password);
 			
 		}catch(Exception e){
-			System.out.println("Error");
+			System.out.println("Error en Conexion");
 		}
 		return conn;
 	}
