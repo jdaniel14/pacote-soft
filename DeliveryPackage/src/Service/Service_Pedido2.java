@@ -4,8 +4,8 @@ import java.util.List;
 
 import Bean.Almacen;
 import Bean.BreadthFirstPaths;
-import Bean.Envio;
 import Bean.Grafo;
+import Bean.Pedido;
 import Bean.Ruta;
 import Bean.Vuelo;
 import DAO.DAO_Almacen;
@@ -22,10 +22,13 @@ public class Service_Pedido2 {
 	public void ReservarAlmacen(){}
 	public void ReservarAvion(){}
 	
-	public List <Ruta> buscarRuta(){
+	public List <Ruta> buscarRuta(Pedido pedido){
 		dao_almacen = new DAO_Almacen();
 		dao_vuelo = new DAO_Vuelo();
-		Envio envio = new Envio();
+		//Pedido pedido = new Pedido();
+		//pedido.almacen_partida = 1;
+		//pedido.almacen_entrega = 3;
+		//pedido.cantidad = 3;
 		
 		List <Ruta> listaRutas = null;
 		List <Ruta> listaRutasDev = null;
@@ -42,14 +45,26 @@ public class Service_Pedido2 {
 			Grafo grafo = new Grafo(listAlmacen, listVuelo);
 			grafo.rutas();
 			BreadthFirstPaths busq = new BreadthFirstPaths();
-			listaRutas = busq.bfs(grafo, envio);
+			listaRutas = busq.bfs(grafo, pedido);
 			
-			int capac = envio.cantidad;
+			
+			int capac = pedido.cantidad;
 			for(int i=0; i<listaRutas.size(); i++){
+				System.out.println(listaRutas.get(i).capacidad + " - " + capac);
+				if(capac==0) break;
 				
+				Ruta ruta_add; 
+				int cuant = listaRutas.get(i).capacidad;
 				
+				if(capac>=cuant){
+					capac -= cuant;
+					ruta_add = new Ruta(listaRutas.get(i));
+				}else{	
+					ruta_add = new Ruta(listaRutas.get(i).listaVuelos, capac);
+					capac = 0;
+				}	
+				if(ruta_add.excluyente(listaRutasDev))listaRutasDev.add(ruta_add);
 			}
-			
 			
 			
 		} catch (SQLException e) {

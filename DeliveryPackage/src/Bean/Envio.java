@@ -4,22 +4,16 @@ import java.util.Date;
 
 public class Envio {
 	public int id;
-	public int almacen_partida; 
-	public int almacen_entrega; 
-	public int cantidad;
-	public Date fecha_registro; 
-	public Date fecha_entrega; 
+	public int pedido_id;	 
+	public int cantidad; 
 	public String estado; 
 	
 	public Envio(){}
 	
-	public Envio(int id, int alm_part, int alm_entr, int cant, Date registro, Date entrega, String est){
+	public Envio(int id, int ped_id, int cant,String est){
 		this.id = id;
-		this.almacen_partida = alm_part;
-		this.almacen_entrega = alm_entr;
-		this.cantidad = cant;
-		this.fecha_registro = registro;
-		this.fecha_entrega = entrega;
+		this.pedido_id = ped_id;
+		this.cantidad = cant;		
 		this.estado = est;
 	}
 	

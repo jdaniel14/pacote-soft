@@ -8,9 +8,9 @@ import java.util.Queue;
 
 public class BreadthFirstPaths {
     private static final int INFINITY = Integer.MAX_VALUE;
-    private boolean[] marked;  // marked[v] = is there an s-v path
-    private int[] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path
-    private int[] distTo;      // distTo[v] = number of edges shortest s-v path
+    //private boolean[] marked;  // marked[v] = is there an s-v path
+    //private int[] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path
+    //private int[] distTo;      // distTo[v] = number of edges shortest s-v path
 
     // single source
     public BreadthFirstPaths() {
@@ -19,22 +19,22 @@ public class BreadthFirstPaths {
     }
 
     // BFS from single source
-    public List<Ruta> bfs(Grafo G, Envio envio) {
+    public List<Ruta> bfs(Grafo G, Pedido pedido) {
     	List<Ruta> listaRutas = new ArrayList<Ruta>();
         Queue< List<Vuelo> > q = new LinkedList< List<Vuelo> >();
-        for (int v = 0; v < G.getV(); v++) distTo[v] = INFINITY;
+ //       System.out.println(G.getV());
+ //       for (int v = 0; v < G.getV(); v++) distTo[v] = INFINITY;
  //       distTo[ini] = 0;
  //       marked[ini] = true;
  
-        int ini = envio.almacen_partida;
-        int fin = envio.almacen_entrega;
+        //System.out.println(ini);
+        //System.out.println(fin);
+        int partida = (Integer) G.map.get(pedido.almacen_partida);
+        int destino = pedido.almacen_entrega;
         
-        int inicial = (Integer) G.map.get(ini);
-        //int finn  = (Integer) G.map.get(fin);
-        
-        for(int i=0; i<G.adj[inicial].size(); i++){
+        for(int i=0; i<G.adj[partida].size(); i++){
         	List<Vuelo> listIni = new ArrayList <Vuelo>();
-        	Vuelo vuelo = G.adj[inicial].get(i);
+        	Vuelo vuelo = G.adj[partida].get(i);
         	listIni.add(vuelo);
         	q.add(listIni);
         }
@@ -46,7 +46,7 @@ public class BreadthFirstPaths {
         	//System.out.println("destino auxiliar : " + dest_aux + " final : " + fin);
         	int cap;
         	
-        	if(dest_aux == fin){
+        	if(dest_aux == destino){
         		System.out.println("Se alcanzo destino " + tam);
         		cap = imprimir_path(path);
         		if(cap>0){
@@ -62,7 +62,7 @@ public class BreadthFirstPaths {
         	int dd = (Integer)G.map.get(dest_aux);
             for (int i=0; i<G.adj[dd].size(); i++) {
                 Vuelo vv = G.adj[(Integer)G.map.get(dest_aux)].get(i);
-            	if(no_esta_incluido(vv, path, ini) && cumple_tiempo(vv,vf)){
+            	if(no_esta_incluido(vv, path, partida) && cumple_tiempo(vv,vf)){
             		List<Vuelo>new_path = new ArrayList<Vuelo>(path);//path.begin(),path.end()
             		//System.out.println("- " + vv.ciudad_fin + " -- " + i);
                     new_path.add(vv);
@@ -93,14 +93,14 @@ public class BreadthFirstPaths {
     }
 
     // is there a path between s (or sources) and v?
-    public boolean hasPathTo(int v) {
+    /*public boolean hasPathTo(int v) {
         return marked[v];
     }
 
     // length of shortest path between s (or sources) and v
     public int distTo(int v) {
         return distTo[v];
-    }
+    }*/
 
     public int  imprimir_path(List <Vuelo> path){
     	
