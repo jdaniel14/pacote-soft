@@ -10,8 +10,9 @@ public class Vuelo {
 	public Date hora_fin;
 	public int capacidad;
 	public int capacidad_actual;
+	public String estado;
 	
-	public Vuelo(int id, int c_ini, int c_fin, Date hr_ini, Date hr_fin, int capac, int capac_act){
+	public Vuelo(int id, int c_ini, int c_fin, Date hr_ini, Date hr_fin, int capac, int capac_act, String est){
 		this.vuelo_id = id;
 		this.ciudad_ini = c_ini;
 		this.ciudad_fin = c_fin;
@@ -19,5 +20,6 @@ public class Vuelo {
 		this.hora_fin = hr_fin;
 		this.capacidad = capac;
 		this.capacidad_actual = capac_act;
+		this.estado = est;
 	}
 }
