@@ -108,6 +108,17 @@ public class Service_Pedido {
 	
 	
 	*/
+	
+	
+	public static void limpiarVacios(List <Ruta> iterador){
+		for(int i = 0; i < iterador.size();i++){
+			if(iterador.get(i).capacidad == 0){
+				iterador.remove(i);
+			}
+		}
+	}
+	
+	
 	public static void ordenarRutasPropuestas(List <Ruta> rutasPropuestas){
 		
 		for(int i = 0; i < rutasPropuestas.size() - 1;i++){
@@ -272,46 +283,65 @@ public class Service_Pedido {
 			
 		}
 		
+		
+		
 		List <Ruta> iterador = rutasPropuestas;
+		ArrayList capacidades = new ArrayList();
 		
 		ArrayList rutaASeguir = new ArrayList();
 		
 		while (pedido.cantidad > 0){
+			
+			limpiarVacios(iterador);
 			
 			for(int i = 0; i < iterador.size();i++){
 			
 				int capReal = 0;
 				int factor = 0;
 				
-				
-				//capReal = devolver_capacidad_real(iterador.get(i));
+				Service_Pedido2 p = new Service_Pedido2();
+				capReal = p.devolver_capacidad_real(iterador.get(i));
 			
 				iterador.get(i).capacidad = capReal;
 				iterador.get(i).factor = factor;
 			}
 			
+			//System.out.println("HOla");
+			
 			ordenarRutasPropuestas(iterador);
 			
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
-				
+				pedido.cantidad -= iterador.get(0).capacidad;
 				//en el atributo capacidad del pedido se esta guardando lo que se manda por esa ruta
 				iterador.get(0).capacidad = pedido.cantidad;
+				
+				int v ;
+				v = iterador.get(0).capacidad;
+				capacidades.add(v);
 				rutaASeguir.add(iterador.get(0));
 				
 				System.out.println();
 				System.out.println("Se a–adi— una ruta para el pedido");
 				System.out.println();
 				
+				
 				break;
 			}
 			else{
 				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
 				
-				//Inserto en el cache de base de datos la cantidad iterador.get(0).capacidad
+				int v ;
+				v = iterador.get(0).capacidad;
+				capacidades.add(v);
+				
+				iterador.get(0).capacidad = pedido.cantidad;
+				rutaASeguir.add(iterador.get(0));
+				
 			}
 			
-			
+			Service_Pedido2 p = new Service_Pedido2();
+			p.actualizacion_cache(pedido, iterador.get(0).capacidad, iterador.get(0));
 			
 		}
 		
@@ -319,7 +349,7 @@ public class Service_Pedido {
 		//Imprimo mi respuesta final
 		for (int i = 0; i < rutaASeguir.size();i++){
 			System.out.println();
-			System.out.println("Se esta enviado: "+ (((Ruta)(rutaASeguir.get(i)))).capacidad);
+			System.out.println("Se esta enviado: "+ capacidades.get(i));
 			System.out.println();
 			imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
 		}
