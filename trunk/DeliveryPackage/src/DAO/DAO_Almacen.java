@@ -33,6 +33,23 @@ public class DAO_Almacen {
 		return listaAlmacenes;
 	}
 	
+	public int capacidad_almacen(int almacen_id) throws SQLException{
+		int capac = 0;
+		Conexion conexion = new Conexion();
+		conexion.abrirConexion();
+		
+		Statement s = conexion.conn.createStatement();
+		s.executeQuery("SELECT almacen_capacidad FROM Almacen WHERE almacen_id = " + almacen_id);
+		ResultSet rs = s.getResultSet();
+		
+		if(rs.next()){
+			capac = rs.getInt(1);
+		}
+		
+		conexion.cerrarConexion();
+		return capac;
+	}
+	
 	public List<Fech_Capac>  consultar_movimientos_rango(int almacen_id, Date fech_ini, Date fech_fin)  {
 		List<Fech_Capac> list_fech_capac =  new ArrayList<Fech_Capac>();
 		Conexion conexion = new Conexion();
