@@ -115,15 +115,15 @@ public class Service_Pedido2 {
 			almacen_id = vuelo1.ciudad_fin;
 			vuelo_capac = vuelo1.capacidad_actual;
 			
-			capac_almacen = capacidad_almacen(almacen_id);
+			capac_almacen = capacidad_almacen(almacen_id, fech_ini, fech_fin);
 			capac_real = Math.min(capac_real, Math.min(capac_almacen, vuelo_capac));
 		}
 		
 		return capac_real;
 	}
-	public int capacidad_almacen(int almacen_id){
+	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin){
 		int capac=0; int arr_cant[]; Fech_Capac f_c;
-		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id));
+		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin));
 		int tam_list = list_fech_capac.size();
 		System.out.println("tam_arr : " + tam_list);
 		
@@ -135,8 +135,30 @@ public class Service_Pedido2 {
 			min_fech = Math.min(min_fech, f_c.fech_ini.getTime());
 			max_fech = Math.max(max_fech, f_c.fech_fin.getTime());
 		}
-		Long tam_arr = (max_fech - min_fech)/3600000; 
+		Long tam_arr = (max_fech - min_fech)/3600000;
+		arr_cant = new int[(int)(long)tam_arr];
+		
 		System.out.println("tam_arr : " + tam_arr);
+		
+		Long ii, ff;
+		for(int i=0; i<tam_list; i++){
+			f_c = list_fech_capac.get(i);
+			ii = f_c.fech_ini.getTime();
+			ff = f_c.fech_fin.getTime();
+			int x = (int)(long)(ii - min_fech)/3600000;
+			int y = (int)(long)((tam_arr - (max_fech - ff)/3600000));
+			System.out.println("x:" + x + " y: " + y + " " + f_c.fech_ini);
+			for(int var = x; var<y; var++){
+				arr_cant[var] += f_c.cant;
+			}
+		}
+		
+		capac = Integer.MIN_VALUE;
+		for(int i=0; i<tam_list; i++){
+			System.out.println( "cant " + arr_cant[i]);
+			capac = Math.max(capac, arr_cant[i]);
+		}
+		System.out.println(capac);
 		return capac;
 	}
 }
