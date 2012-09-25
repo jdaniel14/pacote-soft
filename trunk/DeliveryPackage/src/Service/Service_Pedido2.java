@@ -4,13 +4,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Bean.*;
+import Bean.Almacen;
+import Bean.BreadthFirstPaths;
+import Bean.Envio;
+import Bean.Fech_Capac;
+import Bean.Grafo;
+import Bean.Movimiento;
+import Bean.Pedido;
+import Bean.Ruta;
+import Bean.Vuelo;
 import DAO.DAO_Almacen;
+import DAO.DAO_Envio;
+import DAO.DAO_Movimiento;
+import DAO.DAO_Pedido;
 import DAO.DAO_Vuelo;
 
 public class Service_Pedido2 {
 	private DAO_Almacen dao_almacen = new DAO_Almacen();
-	private DAO_Vuelo dao_vuelo;
+	private DAO_Vuelo dao_vuelo =  new DAO_Vuelo();
+	private DAO_Pedido dao_pedido = new DAO_Pedido(); 
+	private DAO_Envio dao_envio = new DAO_Envio();
+	private DAO_Movimiento dao_movimiento = new DAO_Movimiento();
 	
 	public void ConfirmarEnvio(){
 		ReservarAlmacen();
@@ -19,9 +33,7 @@ public class Service_Pedido2 {
 	public void ReservarAlmacen(){}
 	public void ReservarAvion(){}
 	
-	public List <Ruta> buscarRuta(Pedido pedido){
-		dao_almacen = new DAO_Almacen();
-		dao_vuelo = new DAO_Vuelo();
+	public List <Ruta> buscarRuta(Pedido pedido){		
 		//Pedido pedido = new Pedido();Love Unit
 		//pedido.almacen_partida = 1;
 		//pedido.almacen_entrega = 3;
@@ -161,6 +173,33 @@ public class Service_Pedido2 {
 		System.out.println(capac);
 		return capac;
 		//PANCHO MARICON
-		
 	}
+
+	public int actualizacion_cache(Pedido pedido, int cant, Ruta ruta){
+		int res= 0;Vuelo vuelo1, vuelo2;
+		int ult_pedido = dao_pedido.registrarPedido(pedido);
+		pedido.id = ult_pedido;
+		int ult_envio = dao_envio.registrarEnvio(pedido, cant, "OK");
+		Envio envio = new Envio();
+		envio.id = ult_pedido;
+		envio.cantidad = cant;
+		
+		
+		List <Vuelo> listVuelos = ruta.listaVuelos;
+		vuelo1 = listVuelos.get(0);
+		dao_vuelo.actualizar_capacidad(envio, vuelo1);
+		
+		int tamList = listVuelos.size();
+		for(int i=1; i<tamList; i++){
+			vuelo1 = listVuelos.get(i-1);
+			vuelo2 = listVuelos.get(i);
+			Movimiento mov = new Movimiento(vuelo1.ciudad_fin, ult_envio, vuelo1.hora_fin, vuelo2.hora_inicio, cant, "OK");
+			dao_movimiento.insertar_Movimiento(mov);
+
+			dao_vuelo.actualizar_capacidad(envio, vuelo2);
+		}
+		
+		return res;
+	}
+
 }
