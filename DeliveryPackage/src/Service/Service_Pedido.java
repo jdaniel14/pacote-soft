@@ -291,10 +291,14 @@ public class Service_Pedido {
 			ordenarRutasPropuestas(iterador);
 			
 			if (pedido.cantidad <= iterador.get(0).capacidad){
+				
+				
+				//en el atributo capacidad del pedido se esta guardando lo que se manda por esa ruta
+				iterador.get(0).capacidad = pedido.cantidad;
 				rutaASeguir.add(iterador.get(0));
 				
 				System.out.println();
-				System.out.println("Esta ser‡ la ruta que seguir‡ su paquete");
+				System.out.println("Se a–adi— una ruta para el pedido");
 				System.out.println();
 				
 				break;
@@ -311,7 +315,10 @@ public class Service_Pedido {
 		
 		
 		//Imprimo mi respuesta final
-		for (int i = 0; i < rutasPropuestas.size();i++){
+		for (int i = 0; i < rutaASeguir.size();i++){
+			System.out.println();
+			System.out.println("Se esta enviado: "+ (((Ruta)(rutaASeguir.get(i)))).capacidad);
+			System.out.println();
 			imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
 		}
 		
