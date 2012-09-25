@@ -1,7 +1,10 @@
 package DAO;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Bean.Almacen;
@@ -27,5 +30,10 @@ public class DAO_Almacen {
 		
 		conexion.cerrarConexion();
 		return listaAlmacenes;
+	}
+	
+	public int capacidad_almacen(Date fech_ini, Date fech_fin){
+		int tot=0;
+		return tot;
 	}
 }
