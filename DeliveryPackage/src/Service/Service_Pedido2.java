@@ -1,5 +1,6 @@
 package Service;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Bean.Almacen;
@@ -31,7 +32,7 @@ public class Service_Pedido2 {
 		//pedido.cantidad = 3;
 		
 		List <Ruta> listaRutas = null;
-		List <Ruta> listaRutasDev = null;
+		List <Ruta> listaRutasDev = new ArrayList <Ruta>();
 		try {
 			List <Almacen> listAlmacen = dao_almacen.ListarAlmacenes();
 			List <Vuelo> listVuelo = dao_vuelo.ListarVuelos();
