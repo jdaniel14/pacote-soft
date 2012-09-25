@@ -1,12 +1,13 @@
 package Service;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 import Bean.*;
 import DAO.*;
 
 public class Service_Pedido {
 
-	/*
+	
 	public void ConfirmarEnvio(){
 		ReservarAlmacen();
 		ReservarAvion();
@@ -19,9 +20,9 @@ public class Service_Pedido {
 	
 	public static void imprimirVuelo(Vuelo flight){
 
-		Imprime los datos del vuelo
+		/*Imprime los datos del vuelo*/
 		
-		System.out.println("Nï¿½mero de vuelo: " + flight.vuelo_id);
+		System.out.println("Nœmero de vuelo: " + flight.vuelo_id);
 		System.out.println("Ciudad de Inicio: " + flight.ciudad_ini);
 		System.out.println("Ciudad final: " + flight.ciudad_fin);
 		System.out.println("Hora de partida: "  + (flight.hora_inicio).toString());
@@ -32,7 +33,7 @@ public class Service_Pedido {
 	
 	public static void imprimirRuta(ArrayList listaDeVuelos){
 		
-		Imprime una lista de vuelos
+		/*Imprime una lista de vuelos*/
 		
 		Vuelo lectorVuelo;
 		
@@ -53,7 +54,7 @@ public class Service_Pedido {
 	}
 	
 	public static Vuelo copiarVuelo(Vuelo vuelo){
-		return new Vuelo(vuelo.vuelo_id,vuelo.ciudad_ini,vuelo.ciudad_fin, new Date(), new Date(), vuelo.capacidad);
+		return new Vuelo(vuelo.vuelo_id,vuelo.ciudad_ini,vuelo.ciudad_fin, vuelo.hora_inicio,vuelo.hora_fin, vuelo.capacidad,vuelo.capacidad_actual,vuelo.estado);
 	}
 	
 	public static ArrayList copiarListaVuelos(ArrayList lista){
@@ -73,23 +74,28 @@ public class Service_Pedido {
 		System.out.println("Corriendo Algoritmo...");
 		System.out.println();
 		
-		*//******Algoritmo*******//*
+		Date systemTime = new Date();
+		//System.out.println(systemTime);
+				
+		/******Algoritmo*******/
 		
 		DAO_Vuelo vuelo_DAO = new DAO_Vuelo();
 		List <Vuelo> listaVuelos;
 		
 		listaVuelos = vuelo_DAO.ListarVuelos();
 		
-		ArrayList imprimeme = (ArrayList)listaVuelos;
+		int cityPartida = 1;
+		int cityFinal = 5;
+		Date fechaInicio = new Date(112,8,13,10,0,0);
 		
-		//imprimirRuta(imprimeme);
 		
-		Vuelo base = new Vuelo(0,1,5,new Date(),new Date(),0);
+		Vuelo base = new Vuelo(0,cityPartida,cityFinal,new Date(112,8,13,10,0,0),new Date(),100,100,"OK");
+		
+		System.out.println("La hora Inca Kola es: " + base.hora_inicio);
+		System.out.println();
 		
 		Integer ICiudad = base.ciudad_ini;
 		Integer FCiudad = base.ciudad_fin;
-		
-		Integer condicion = 0;
 		
 		//Vuelo lectorVuelo;
 		Vuelo lectorVueloLista;
@@ -104,30 +110,35 @@ public class Service_Pedido {
 		
 		Integer lectorCiudadFin;
 		
+		ArrayList rutasPropuestas = new ArrayList();
+		
+		//Pedido pedido = new Pedido(9,)
+		
 		//****************************************
 		
-		//+++++OJO; Verificar si el usuario escribe viajar de 1 a 1 (mismo lugar)
 		
-		Inicializo la lista con los primeros vuelos que deberian iniciar
+		/*Inicializo la lista con los primeros vuelos que deberian iniciar
 		 * Puedo utilizar este primer bucle para crear el grafo
 		 * el cual haria mas eficiente el algoritmo
-		 
+		 */
 		for(int i = 0; i < listaVuelos.size(); i++){
-			Mientras que no se haya leido toda la tabla vuelos
+			/*Mientras que no se haya leido toda la tabla vuelos*/
 			
 			lectorVuelo = listaVuelos.get(i);
 		
-			Verifico si el vuelo tiene como inicio "leerCiudad"
+			/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
 			
-			si la tiene, agrego a la lista, sino sigo denuevo con el bucle
+			/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
 			if (ICiudad == lectorVuelo.ciudad_ini){
+				if (base.hora_inicio.getTime() < lectorVuelo.hora_inicio.getTime()){
+					
+					ArrayList opcionR = new ArrayList();
 				
-				ArrayList opcionR = new ArrayList();
+					insertVuelo = lectorVuelo;
 				
-				insertVuelo = lectorVuelo;
-				
-				opcionR.add(insertVuelo);
-				rutas.add(opcionR);
+					opcionR.add(insertVuelo);
+					rutas.add(opcionR);
+				}
 			}
 			
 		}
@@ -149,30 +160,39 @@ public class Service_Pedido {
 			lectorCiudadFin = lectorVueloLista.ciudad_fin;
 			
 			if (lectorCiudadFin == FCiudad){
+				
+				Ruta opcionR = new Ruta(null,0);;
+				
 				System.out.println("****Ruta encontrada****");
 				lectorListaRutas.add(lectorVueloLista);
+				
+				opcionR.listaVuelos = copiarListaVuelos(lectorListaRutas);
+				
+				rutasPropuestas.add(opcionR);
+				
 				imprimirRuta(lectorListaRutas);
 				
 			}
 			
 			for(int i = 0; i < listaVuelos.size(); i++){
-				Mientras que no se haya leido toda la tabla vuelos
+				/*Mientras que no se haya leido toda la tabla vuelos*/
 				
 				lectorVuelo = listaVuelos.get(i);
 				
 				
-				Verifico si el vuelo tiene como inicio "leerCiudad"
+				/*Verifico si el vuelo tiene como inicio "leerCiudad"*/
 				
-				si la tiene, agrego a la lista, sino sigo denuevo con el bucle
+				/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
 				if (lectorCiudadFin == lectorVuelo.ciudad_ini){
+					if (lectorVueloLista.hora_fin.getTime() < lectorVuelo.hora_inicio.getTime()){
+						ArrayList opcionR;
+						opcionR = copiarListaVuelos(lectorListaRutas);
 					
-					ArrayList opcionR;
-					opcionR = copiarListaVuelos(lectorListaRutas);
+						opcionR.add(copiarVuelo(lectorVueloLista));
+						opcionR.add(copiarVuelo(lectorVuelo));
 					
-					opcionR.add(copiarVuelo(lectorVueloLista));
-					opcionR.add(copiarVuelo(lectorVuelo));
-					
-					rutas.add(opcionR);
+						rutas.add(opcionR);
+					}
 				}
 				
 			}
@@ -181,15 +201,44 @@ public class Service_Pedido {
 			
 		}
 		
+		// Imprimir las rutas encontradas
+		//for (int i = 0; i < rutasPropuestas.size();i++){
+		//	imprimirRuta((ArrayList)(((Ruta)(rutasPropuestas.get(i))).listaVuelos));
+		//}
 		
-		*//******Fin*******//*
+		
+		//Depues de ejecutarse este for tenemos la capacidad real de cada
+		//ruta guardada en el campo capacidad
+		for(int i = 0; i < rutasPropuestas.size();i++){
+					
+			Ruta enviar = (Ruta)(rutasPropuestas.get(i));
+					
+			//llamo al metodo que me devuelve un int
+					
+			int capacidadReal = 0;
+					
+			//capacidadReal = .... (metodo)
+					
+			((Ruta)(rutasPropuestas.get(i))).capacidad = capacidadReal;
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		/******Fin*******/
 		
 		System.out.println();
 		System.out.println("...Fin Algoritmo");
 		
 		
 		
+		
 	}
-	*/
+	
 	
 }
