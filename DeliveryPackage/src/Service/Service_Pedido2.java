@@ -1,6 +1,7 @@
 package Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Bean.Almacen;
@@ -13,8 +14,8 @@ import DAO.DAO_Almacen;
 import DAO.DAO_Vuelo;
 
 public class Service_Pedido2 {
-	DAO_Almacen dao_almacen;
-	DAO_Vuelo dao_vuelo;
+	private DAO_Almacen dao_almacen;
+	private DAO_Vuelo dao_vuelo;
 	
 	public void ConfirmarEnvio(){
 		ReservarAlmacen();
@@ -26,7 +27,7 @@ public class Service_Pedido2 {
 	public List <Ruta> buscarRuta(Pedido pedido){
 		dao_almacen = new DAO_Almacen();
 		dao_vuelo = new DAO_Vuelo();
-		//Pedido pedido = new Pedido();
+		//Pedido pedido = new Pedido();Love Unit
 		//pedido.almacen_partida = 1;
 		//pedido.almacen_entrega = 3;
 		//pedido.cantidad = 3;
@@ -76,5 +77,32 @@ public class Service_Pedido2 {
 		return listaRutasDev;
 	}
 	
-	
+	public int hallar_capacidad_real(Ruta ruta, Pedido pedido){
+		int capac, capac_final = Integer.MAX_VALUE; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
+		
+		List<Vuelo> listaVuelo = ruta.listaVuelos;
+		vuelo1 = listaVuelo.get(0);
+		
+		int tam = listaVuelo.size();
+		fech_ini = pedido.fecha_registro;
+		fech_fin = vuelo1.hora_inicio;
+		capac = this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
+		capac_final = Math.min(capac_final, Math.min(capac, vuelo1.capacidad_actual));
+		
+		for(int i=1; i<tam; i++){
+			vuelo1 = listaVuelo.get(i-1);
+			vuelo2 = listaVuelo.get(i);
+			fech_ini = vuelo1.hora_fin;
+			fech_fin = vuelo2.hora_inicio;
+			this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
+			capac_final = Math.min(capac_final, Math.min(capac, vuelo2.capacidad_actual));
+		}
+		vuelo2 = listaVuelo.get(tam-1);
+		fech_ini = vuelo2.hora_fin;
+		fech_fin = pedido.fecha_entrega;
+		this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
+		capac_final = Math.min(capac_final, Math.min(capac, vuelo2.capacidad_actual));
+		
+		return capac_final;
+	}
 }
