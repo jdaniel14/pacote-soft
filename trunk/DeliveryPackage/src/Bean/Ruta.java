@@ -5,6 +5,7 @@ import java.util.List;
 public class Ruta {
 	public List <Vuelo> listaVuelos;
 	public int capacidad;
+	public int factor;
 	public Ruta(List <Vuelo> lista, int capac){
 		this.listaVuelos = lista;
 		this.capacidad = capac;
