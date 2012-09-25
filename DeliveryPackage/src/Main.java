@@ -10,7 +10,7 @@ public class Main {
 	
 	public static void main(String [] args){
  
-		try {
+		/*try {
 			int cant = 3;
 			int almacen_partida = 1;
 			int almacen_llegada = 3;
@@ -29,7 +29,9 @@ public class Main {
 			
 		} catch (ParseException e){
 			System.out.println("Exception :"+e);   
-		}
+		}*/
+		Service_Pedido2 algorithm = new Service_Pedido2();
+		algorithm.capacidad_almacen(1);
 	}
 
 }

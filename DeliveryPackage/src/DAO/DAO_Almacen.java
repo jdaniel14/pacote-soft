@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import Bean.Almacen;
+import Bean.Fech_Capac;
 
 public class DAO_Almacen {
 	public List<Almacen> ListarAlmacenes() throws SQLException{
@@ -32,8 +33,42 @@ public class DAO_Almacen {
 		return listaAlmacenes;
 	}
 	
-	public int capacidad_almacen(Date fech_ini, Date fech_fin){
-		int tot=0;
-		return tot;
+	public List<Fech_Capac>  consultar_movimientos_rango(int almacen_id)  {
+		List<Fech_Capac> list_fech_capac =  new ArrayList<Fech_Capac>();
+		Conexion conexion = new Conexion();
+		conexion.abrirConexion();
+		
+		Statement s;
+		try {
+			s = conexion.conn.createStatement();
+		
+			String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
+							" FROM Movimiento " + 
+							" WHERE (('2012-09-13 15:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
+							" AND	('2012-09-13 20:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
+							" OR 	((movimiento_hora_entrada BETWEEN '2012-09-13 15:00:00.0' AND '2012-09-13 20:00:00.0' ) " + 
+							" AND	( movimiento_hora_salida BETWEEN '2012-09-13 15:00:00.0' AND '2012-09-13 20:00:00.0' ))" ;
+			s.executeQuery(sql);
+			ResultSet rs = s.getResultSet();
+			
+			while(rs.next()){
+				int cant = rs.getInt(1);
+				int mov_id = rs.getInt(2);
+				Date f_ini = rs.getTimestamp(3);
+				Date f_fin = rs.getTimestamp(4);
+				
+				//int actual=rs.getInt(3);
+				
+				Fech_Capac fech_capac = new Fech_Capac(cant, mov_id, f_ini, f_fin);
+				list_fech_capac.add(fech_capac);
+			}
+			
+			conexion.cerrarConexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Cabro");
+		}
+		return list_fech_capac;
 	}
 }

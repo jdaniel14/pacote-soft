@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Bean.Almacen;
-import Bean.BreadthFirstPaths;
-import Bean.Grafo;
-import Bean.Pedido;
-import Bean.Ruta;
 import Bean.*;
 import DAO.DAO_Almacen;
 import DAO.DAO_Vuelo;
 
 public class Service_Pedido2 {
-	private DAO_Almacen dao_almacen;
+	private DAO_Almacen dao_almacen = new DAO_Almacen();
 	private DAO_Vuelo dao_vuelo;
 	
 	public void ConfirmarEnvio(){
@@ -120,24 +115,28 @@ public class Service_Pedido2 {
 			almacen_id = vuelo1.ciudad_fin;
 			vuelo_capac = vuelo1.capacidad_actual;
 			
-			capac_almacen = capacidad_almacen(almacen_id, fech_ini, fech_fin);
+			capac_almacen = capacidad_almacen(almacen_id);
 			capac_real = Math.min(capac_real, Math.min(capac_almacen, vuelo_capac));
 		}
 		
 		return capac_real;
 	}
-	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin){
-		int capac=0; int arr_cant[];
-		List<Fech_Capac> list_fech_capac = this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin);
+	public int capacidad_almacen(int almacen_id){
+		int capac=0; int arr_cant[]; Fech_Capac f_c;
+		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id));
 		int tam_list = list_fech_capac.size();
+		System.out.println("tam_arr : " + tam_list);
 		
 		long min_fech=Long.MAX_VALUE, max_fech=Long.MIN_VALUE;
 		
 		for(int i=0; i<tam_list; i++){
-			Fech_Capac f_c = list_fech_capac.get(i);
-			min_fech = Math.Min(f_c.fech_ini.getTime());
+			f_c = list_fech_capac.get(i);
+			System.out.println("mov_id : " + f_c.mov_id + ", cant: "+f_c.cant + ", f_ini" + f_c.fech_ini + ", f_fin:" + f_c.fech_fin);
+			min_fech = Math.min(min_fech, f_c.fech_ini.getTime());
+			max_fech = Math.max(max_fech, f_c.fech_fin.getTime());
 		}
-		
+		Long tam_arr = (max_fech - min_fech)/3600000; 
+		System.out.println("tam_arr : " + tam_arr);
 		return capac;
 	}
 }
