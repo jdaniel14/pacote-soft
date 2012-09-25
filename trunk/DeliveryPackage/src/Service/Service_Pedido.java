@@ -282,7 +282,9 @@ public class Service_Pedido {
 			
 				int capReal = 0;
 				int factor = 0;
-				//Obtengo el valor de capReal
+				
+				
+				//capReal = devolver_capacidad_real(iterador.get(i));
 			
 				iterador.get(i).capacidad = capReal;
 				iterador.get(i).factor = factor;
