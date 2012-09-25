@@ -113,7 +113,7 @@ public class Service_Pedido2 {
 		return capac_final;
 	}*/
 	
-	public int devolver_capacidad_real(Ruta ruta){
+	public int devolver_capacidad_real(Ruta ruta) throws SQLException{
 		int capac_real=Integer.MAX_VALUE, vuelo_capac, capac_almacen, almacen_id; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
 		
 		List<Vuelo> listVuelos = ruta.listaVuelos;
@@ -133,7 +133,7 @@ public class Service_Pedido2 {
 		
 		return capac_real;
 	}
-	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin){
+	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin) throws SQLException{
 		int capac=0; int arr_cant[]; Fech_Capac f_c;
 		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin));
 		int tam_list = list_fech_capac.size();
@@ -171,7 +171,7 @@ public class Service_Pedido2 {
 			capac = Math.max(capac, arr_cant[i]);
 		}
 		System.out.println(capac);
-		return capac;
+		return dao_almacen.capacidad_almacen(almacen_id) - capac;
 		//PANCHO MARICON
 	}
 
