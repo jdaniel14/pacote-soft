@@ -10,6 +10,7 @@ public class Movimiento {
 	public int cantidad;
 	public String estado;
 	
+	
 	public Movimiento(int almacen, int envio, Date mov_entr, Date mov_sal, int cant, String est){
 		this.almacen = almacen;
 		this.envio = envio;
