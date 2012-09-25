@@ -9,9 +9,7 @@ import Service.Service_Pedido2;
 public class Main {
 	
 	public static void main(String [] args){
-		
-		
-		
+ 
 		try {
 			int cant = 3;
 			int almacen_partida = 1;
