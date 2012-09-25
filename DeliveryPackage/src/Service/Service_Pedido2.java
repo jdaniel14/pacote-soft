@@ -9,7 +9,7 @@ import Bean.BreadthFirstPaths;
 import Bean.Grafo;
 import Bean.Pedido;
 import Bean.Ruta;
-import Bean.Vuelo;
+import Bean.*;
 import DAO.DAO_Almacen;
 import DAO.DAO_Vuelo;
 
@@ -64,7 +64,7 @@ public class Service_Pedido2 {
 				}else{	
 					ruta_add = new Ruta(listaRutas.get(i).listaVuelos, capac);
 					capac = 0;
-				}	
+				}
 				if(ruta_add.excluyente(listaRutasDev))listaRutasDev.add(ruta_add);
 			}
 			
@@ -77,7 +77,7 @@ public class Service_Pedido2 {
 		return listaRutasDev;
 	}
 	
-	public int hallar_capacidad_real(Ruta ruta, Pedido pedido){
+	/*public int hallar_capacidad_real(Ruta ruta, Pedido pedido){
 		int capac, capac_final = Integer.MAX_VALUE; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
 		
 		List<Vuelo> listaVuelo = ruta.listaVuelos;
@@ -104,5 +104,40 @@ public class Service_Pedido2 {
 		capac_final = Math.min(capac_final, Math.min(capac, vuelo2.capacidad_actual));
 		
 		return capac_final;
+	}*/
+	
+	public int devolver_capacidad_real(Ruta ruta){
+		int capac_real=Integer.MAX_VALUE, vuelo_capac, capac_almacen, almacen_id; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
+		
+		List<Vuelo> listVuelos = ruta.listaVuelos;
+		int tamListVuelos = listVuelos.size();
+		
+		for(int i=1; i<tamListVuelos; i++){
+			vuelo1 = listVuelos.get(i-1);
+			vuelo2 = listVuelos.get(i);
+			fech_ini = vuelo1.hora_fin;
+			fech_fin = vuelo2.hora_inicio;
+			almacen_id = vuelo1.ciudad_fin;
+			vuelo_capac = vuelo1.capacidad_actual;
+			
+			capac_almacen = capacidad_almacen(almacen_id, fech_ini, fech_fin);
+			capac_real = Math.min(capac_real, Math.min(capac_almacen, vuelo_capac));
+		}
+		
+		return capac_real;
+	}
+	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin){
+		int capac=0; int arr_cant[];
+		List<Fech_Capac> list_fech_capac = this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin);
+		int tam_list = list_fech_capac.size();
+		
+		long min_fech=Long.MAX_VALUE, max_fech=Long.MIN_VALUE;
+		
+		for(int i=0; i<tam_list; i++){
+			Fech_Capac f_c = list_fech_capac.get(i);
+			min_fech = Math.Min(f_c.fech_ini.getTime());
+		}
+		
+		return capac;
 	}
 }
