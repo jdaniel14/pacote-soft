@@ -33,7 +33,7 @@ public class DAO_Almacen {
 		return listaAlmacenes;
 	}
 	
-	public List<Fech_Capac>  consultar_movimientos_rango(int almacen_id)  {
+	public List<Fech_Capac>  consultar_movimientos_rango(int almacen_id, Date fech_ini, Date fech_fin)  {
 		List<Fech_Capac> list_fech_capac =  new ArrayList<Fech_Capac>();
 		Conexion conexion = new Conexion();
 		conexion.abrirConexion();
@@ -44,10 +44,10 @@ public class DAO_Almacen {
 		
 			String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
 							" FROM Movimiento " + 
-							" WHERE (('2012-09-13 15:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
+							" WHERE (('2012-09-13 17:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
 							" AND	('2012-09-13 20:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
-							" OR 	((movimiento_hora_entrada BETWEEN '2012-09-13 15:00:00.0' AND '2012-09-13 20:00:00.0' ) " + 
-							" AND	( movimiento_hora_salida BETWEEN '2012-09-13 15:00:00.0' AND '2012-09-13 20:00:00.0' ))" ;
+							" OR 	((movimiento_hora_entrada BETWEEN '2012-09-13 17:00:00.0' AND '2012-09-13 20:00:00.0' ) " + 
+							" AND	( movimiento_hora_salida BETWEEN '2012-09-13 17:00:00.0' AND '2012-09-13 20:00:00.0' ))" ;
 			s.executeQuery(sql);
 			ResultSet rs = s.getResultSet();
 			
