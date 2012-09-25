@@ -12,6 +12,7 @@ import DAO.DAO_Vuelo;
 
 public class Service_Pedido3 {
 
+	public static ArrayList rutaASeguir = new ArrayList();
 	
 	public static void algorithm() throws SQLException{
 		int cityPartida = 1;
@@ -29,6 +30,14 @@ public class Service_Pedido3 {
 		while (cantidadEnviar > 0){
 			buscarRuta(pedido,base);
 		}
+		
+		//Imprimo mi respuesta final
+				for (int i = 0; i < rutaASeguir.size();i++){
+					System.out.println();
+					System.out.println("Se esta enviado: "+ (((Ruta)(rutaASeguir.get(i)))).capacidad);
+					System.out.println();
+					imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
+				}
 		
 	}
 	
@@ -237,7 +246,7 @@ public class Service_Pedido3 {
 		
 		List <Ruta> iterador = rutasPropuestas;
 		
-		ArrayList rutaASeguir = new ArrayList();
+		//ArrayList rutaASeguir = new ArrayList();
 		
 		while (pedido.cantidad > 0){
 			
@@ -272,12 +281,12 @@ public class Service_Pedido3 {
 		
 		
 		//Imprimo mi respuesta final
-		for (int i = 0; i < rutaASeguir.size();i++){
-			System.out.println();
-			System.out.println("Se esta enviado: "+ (((Ruta)(rutaASeguir.get(i)))).capacidad);
-			System.out.println();
-			imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
-		}
+		//for (int i = 0; i < rutaASeguir.size();i++){
+		//	System.out.println();
+		//	System.out.println("Se esta enviado: "+ (((Ruta)(rutaASeguir.get(i)))).capacidad);
+		//	System.out.println();
+		//	imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
+		//}
 			
 		/******Fin*******/
 		
