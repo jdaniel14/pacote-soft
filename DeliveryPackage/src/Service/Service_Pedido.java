@@ -281,9 +281,11 @@ public class Service_Pedido {
 			for(int i = 0; i < iterador.size();i++){
 			
 				int capReal = 0;
+				int factor = 0;
 				//Obtengo el valor de capReal
 			
-				iterador.get(i).capacidad = capReal; 
+				iterador.get(i).capacidad = capReal;
+				iterador.get(i).factor = factor;
 			}
 			
 			ordenarRutasPropuestas(iterador);
