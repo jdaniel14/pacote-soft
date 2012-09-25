@@ -5,6 +5,7 @@ import java.util.*;
 import Bean.*;
 import DAO.*;
 
+
 public class Service_Pedido {
 
 	
@@ -69,6 +70,73 @@ public class Service_Pedido {
 		return devolver;
 	}
 	
+	
+	/*
+	public static int devolverCapacidadReal(List <Vuelo> listaVuelos, HashMap mapAlmacenes, List <Almacen> almacenes,HashMap mapVuelos, List <Vuelo> vuelos){
+		int rpta = 0;
+		int menor = 0;
+		
+		for(int i = 0; i < listaVuelos.size();i++){
+			
+			Integer indiceV;
+			indiceV = (Integer)mapVuelos.get(listaVuelos.get(i).vuelo_id);
+			
+			if (menor > vuelos.get(indiceV).capacidad_actual){
+				menor = vuelos.get(indiceV).capacidad_actual;
+			}
+			
+			Integer indiceA = 0;
+			indiceA = (Integer)mapAlmacenes.get(listaVuelos.get(i).ciudad_fin);
+			
+			if (menor > almacenes.get(indiceA).almacen_capacidad_actual){
+				menor = almacenes.get(indiceA).almacen_capacidad_actual;
+			}
+		}
+		
+		rpta = menor;
+		
+		return rpta;
+	}
+	
+	public static void actualizarCapacidadReal(ArrayList rutasPropuestas,HashMap mapAlmacenes, List <Almacen> almacenes, HashMap mapVuelos, List <Vuelo> vuelos){
+		
+		for(int i = 0; i < rutasPropuestas.size();i++){
+			((Ruta)(rutasPropuestas.get(i))).capacidad = devolverCapacidadReal(((Ruta)(rutasPropuestas.get(i))).listaVuelos,mapAlmacenes,almacenes,mapVuelos,vuelos);
+		}
+		
+	}
+	
+	
+	*/
+	public static void ordenarRutasPropuestas(List <Ruta> rutasPropuestas){
+		
+		for(int i = 0; i < rutasPropuestas.size() - 1;i++){
+			
+			for(int j = i; j < rutasPropuestas.size();j++){
+				Ruta ruta1;
+				Ruta ruta2;
+				
+				if (rutasPropuestas.get(i).capacidad > rutasPropuestas.get(j).capacidad){
+					ruta1 = rutasPropuestas.get(i);
+					ruta2 = rutasPropuestas.get(j);
+					
+					rutasPropuestas.set(i, ruta2);
+					rutasPropuestas.set(j, ruta1);
+					
+				}
+				
+			}
+			
+			
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
 	public static void buscarRuta() throws SQLException{
 		
 		System.out.println("Corriendo Algoritmo...");
@@ -87,9 +155,12 @@ public class Service_Pedido {
 		int cityPartida = 1;
 		int cityFinal = 5;
 		Date fechaInicio = new Date(112,8,13,10,0,0);
+		Date fechaFin = new Date(112,8,16,10,0,0);
+		int cantidadEnviar = 9;
 		
+		Vuelo base = new Vuelo(0,cityPartida,cityFinal,fechaInicio,fechaFin,cantidadEnviar,0,"OK");
 		
-		Vuelo base = new Vuelo(0,cityPartida,cityFinal,new Date(112,8,13,10,0,0),new Date(),100,100,"OK");
+		Pedido pedido = new Pedido(cantidadEnviar,cityPartida,cityFinal,fechaInicio,fechaFin,"OK");
 		
 		System.out.println("La hora Inca Kola es: " + base.hora_inicio);
 		System.out.println();
@@ -112,7 +183,7 @@ public class Service_Pedido {
 		
 		ArrayList rutasPropuestas = new ArrayList();
 		
-		//Pedido pedido = new Pedido(9,)
+		
 		
 		//****************************************
 		
@@ -201,13 +272,104 @@ public class Service_Pedido {
 			
 		}
 		
+		List <Ruta> iterador = rutasPropuestas;
+		
+		ArrayList rutaASeguir = new ArrayList();
+		
+		while (pedido.cantidad > 0){
+			
+			for(int i = 0; i < iterador.size();i++){
+			
+				int capReal = 0;
+				//Obtengo el valor de capReal
+			
+				iterador.get(i).capacidad = capReal; 
+			}
+			
+			ordenarRutasPropuestas(iterador);
+			
+			if (pedido.cantidad <= iterador.get(0).capacidad){
+				rutaASeguir.add(iterador.get(0));
+				
+				System.out.println();
+				System.out.println("Esta ser‡ la ruta que seguir‡ su paquete");
+				System.out.println();
+				
+				break;
+			}
+			else{
+				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
+				
+				//Inserto en el cache de base de datos la cantidad iterador.get(0).capacidad
+			}
+			
+			
+			
+		}
+		
+		
+		//Imprimo mi respuesta final
+		for (int i = 0; i < rutasPropuestas.size();i++){
+			imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
 		// Imprimir las rutas encontradas
 		//for (int i = 0; i < rutasPropuestas.size();i++){
 		//	imprimirRuta((ArrayList)(((Ruta)(rutasPropuestas.get(i))).listaVuelos));
 		//}
 		
+		HashMap mapAlmacenes = new HashMap();
+		HashMap mapVuelos = new HashMap();
+		ArrayList almacenes = new ArrayList();
+		ArrayList vuelos = new ArrayList();
 		
-		//Depues de ejecutarse este for tenemos la capacidad real de cada
+		actualizarCapacidadReal(rutasPropuestas,mapAlmacenes,(List <Almacen>)almacenes,mapVuelos, vuelos);
+		
+		//ordeno mis rutas propuestas por algun criterio en particular
+		
+		ordenarRutasPropuestas(rutasPropuestas);
+		
+		
+		ArrayList rutaASeguir = new ArrayList();
+		List <Ruta> iterador = (List <Ruta>)rutasPropuestas;
+		
+		while (pedido.cantidad > 0){
+			
+			if (pedido.cantidad < iterador.get(0).capacidad){
+				rutaASeguir.add(iterador.get(0));
+				System.out.println();
+				System.out.println("Ruta que seguir‡ el paquete");
+				System.out.println();
+			}
+			
+			
+		}
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
+		//Despues de ejecutarse este for tenemos la capacidad real de cada
 		//ruta guardada en el campo capacidad
 		for(int i = 0; i < rutasPropuestas.size();i++){
 					
@@ -223,12 +385,22 @@ public class Service_Pedido {
 			
 		}
 		
+		//Ordeno mi lista de rutas por el campo de capacidad
+		//de mayor a menor capacidad
 		
+		ArrayList rutasXPedido = new ArrayList();
 		
+		while(pedido.cantidad != 0){
+			if (pedido.cantidad <= ((Ruta)(rutasPropuestas.get(0))).capacidad){
+				
+			}
+			else{
+				rutasXPedido.add((Ruta)(rutasPropuestas.get(0)));
+				eliminarRutasRelacionadas(((Ruta)(rutasPropuestas.get(0))).listaVuelos,rutasPropuestas);
+			}
+		}
 		
-		
-		
-		
+		*/
 		
 		/******Fin*******/
 		
