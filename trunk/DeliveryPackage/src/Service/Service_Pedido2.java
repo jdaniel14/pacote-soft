@@ -170,7 +170,7 @@ public class Service_Pedido2 {
 			System.out.println( "cant " + arr_cant[i]);
 			capac = Math.max(capac, arr_cant[i]);
 		}
-		System.out.println(capac);
+		System.out.println("%%%%%%" + (dao_almacen.capacidad_almacen(almacen_id) - capac));
 		return dao_almacen.capacidad_almacen(almacen_id) - capac;
 		//PANCHO MARICON
 	}
