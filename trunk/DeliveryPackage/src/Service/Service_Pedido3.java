@@ -29,6 +29,7 @@ public class Service_Pedido3 {
 		
 		while (cantidadEnviar > 0){
 			buscarRuta(pedido,base);
+			cantidadEnviar -= 1;
 		}
 		
 		//Imprimo mi respuesta final
@@ -124,8 +125,8 @@ public class Service_Pedido3 {
 		
 	public static void buscarRuta(Pedido pedido, Vuelo base) throws SQLException{
 			
-		System.out.println("Corriendo Algoritmo...");
-		System.out.println();
+		//System.out.println("Corriendo Algoritmo...");
+		//System.out.println();
 			
 		Date systemTime = new Date();
 		//System.out.println(systemTime);
@@ -137,8 +138,8 @@ public class Service_Pedido3 {
 		
 		listaVuelos = vuelo_DAO.ListarVuelos();
 		
-		System.out.println("La hora Inca Kola es: " + base.hora_inicio);
-		System.out.println();
+		//System.out.println("La hora Inca Kola es: " + base.hora_inicio);
+		//System.out.println();
 		
 		Integer ICiudad = base.ciudad_ini;
 		Integer FCiudad = base.ciudad_fin;
@@ -244,6 +245,8 @@ public class Service_Pedido3 {
 			
 		}
 		
+		/*//Quita esto para la continuacion del algoritmo
+		
 		List <Ruta> iterador = rutasPropuestas;
 		
 		//ArrayList rutaASeguir = new ArrayList();
@@ -290,8 +293,8 @@ public class Service_Pedido3 {
 			
 		/******Fin*******/
 		
-		System.out.println();
-		System.out.println("...Fin Algoritmo");
+		//System.out.println();
+		//System.out.println("...Fin Algoritmo");
 		
 			
 			
