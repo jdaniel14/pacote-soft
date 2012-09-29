@@ -179,6 +179,11 @@ public class Service_Pedido {
 		Integer ICiudad = base.ciudad_ini;
 		Integer FCiudad = base.ciudad_fin;
 		
+		System.out.println("Pedido:");
+		System.out.println("Fecha inicio: " + pedido.fecha_registro);
+		System.out.println("Fecha fin: " + pedido.fecha_entrega);
+		System.out.println();
+		
 		//Vuelo lectorVuelo;
 		Vuelo lectorVueloLista;
 		Vuelo lectorVuelo;
@@ -288,14 +293,16 @@ public class Service_Pedido {
 		
 		for(int i = 0; i < iterador.size();i++){
 			imprimirRuta((ArrayList)iterador.get(i).listaVuelos);
+			System.out.println("Capacidad Real: " + iterador.get(i).capacidad);
+			System.out.println("Factor Actual: " + iterador.get(i).factor);
 		}
 		
 		for(int i = 0; i < iterador.size();i++){
-			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i));
+			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i), pedido);
 		}
 		
 		for(int i = 0; i < iterador.size();i++){
-			System.out.println(iterador.get(i).capacidad);
+			System.out.println("FIN : " + iterador.get(i).capacidad);
 		}
 		
 		/*
@@ -325,7 +332,7 @@ public class Service_Pedido {
 			//System.out.println("HOla");
 			
 			ordenarRutasPropuestas(iterador);
-			
+			System.out.println("tam " + iterador.size());
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
 				pedido.cantidad -= iterador.get(0).capacidad;
