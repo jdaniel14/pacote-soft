@@ -23,6 +23,10 @@ public class Main {
 		///p3.algorithm();
 		p.buscarRuta();
 		//long tiempoF = System.currentTimeMillis();
+		
+		
+		
+		
 		//double r = (tiempoF - tiempoI)/1000.0;
 		//System.out.println( (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
 		

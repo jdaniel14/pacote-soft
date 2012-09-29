@@ -113,11 +113,15 @@ public class Service_Pedido2 {
 		return capac_final;
 	}*/
 	
-	public int devolver_capacidad_real(Ruta ruta) throws SQLException{
+	public int devolver_capacidad_real(Ruta ruta, Pedido pedido) throws SQLException{
 		int capac_real=Integer.MAX_VALUE, vuelo_capac, capac_almacen, almacen_id; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
 		
 		List<Vuelo> listVuelos = ruta.listaVuelos;
 		int tamListVuelos = listVuelos.size();
+		
+		System.out.println("tam xD: " + tamListVuelos);
+		
+		//capac_real = capacidad_almacen(almacen_id, fech_ini, fech_fin);
 		
 		for(int i=1; i<tamListVuelos; i++){
 			vuelo1 = listVuelos.get(i-1);
@@ -125,12 +129,19 @@ public class Service_Pedido2 {
 			fech_ini = vuelo1.hora_fin;
 			fech_fin = vuelo2.hora_inicio;
 			almacen_id = vuelo1.ciudad_fin;
-			vuelo_capac = vuelo1.capacidad_actual;
+			vuelo_capac = vuelo1.capacidad - vuelo1.capacidad_actual;
 			
 			capac_almacen = capacidad_almacen(almacen_id, fech_ini, fech_fin);
+			System.out.println("--> " + vuelo1.vuelo_id + ": " + capac_almacen);
+			
+			System.out.println("--> capac_real : " + capac_real +",  capac_almacen : "+capac_almacen + ", vuelo_capac :" + vuelo_capac);
+			
 			capac_real = Math.min(capac_real, Math.min(capac_almacen, vuelo_capac));
 		}
-		
+		vuelo2 = listVuelos.get(tamListVuelos-1);
+		capac_almacen = capacidad_almacen(vuelo2.ciudad_fin, vuelo2.hora_fin, pedido.fecha_entrega);
+		capac_real = Math.min(capac_real, capac_almacen);
+		System.out.println("--> REAL : " + capac_real);
 		return capac_real;
 	}
 	public int capacidad_almacen(int almacen_id, Date fech_ini, Date fech_fin) throws SQLException{
