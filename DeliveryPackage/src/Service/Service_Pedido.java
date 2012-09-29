@@ -194,7 +194,7 @@ public class Service_Pedido {
 		
 		ArrayList rutasPropuestas = new ArrayList();
 		
-		
+		Service_Pedido2 metodos = new Service_Pedido2();
 		
 		//****************************************
 		
@@ -252,7 +252,7 @@ public class Service_Pedido {
 				
 				rutasPropuestas.add(opcionR);
 				
-				imprimirRuta(lectorListaRutas);
+				//imprimirRuta(lectorListaRutas);
 				
 			}
 			
@@ -285,6 +285,20 @@ public class Service_Pedido {
 		
 		
 		List <Ruta> iterador = rutasPropuestas;
+		
+		for(int i = 0; i < iterador.size();i++){
+			imprimirRuta((ArrayList)iterador.get(i).listaVuelos);
+		}
+		
+		for(int i = 0; i < iterador.size();i++){
+			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i));
+		}
+		
+		for(int i = 0; i < iterador.size();i++){
+			System.out.println(iterador.get(i).capacidad);
+		}
+		
+		/*
 		ArrayList capacidades = new ArrayList();
 		
 		ArrayList rutaASeguir = new ArrayList();
