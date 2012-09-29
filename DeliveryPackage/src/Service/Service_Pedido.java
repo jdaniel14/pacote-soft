@@ -150,8 +150,8 @@ public class Service_Pedido {
 	
 	public static void buscarRuta() throws SQLException{
 		
-		System.out.println("Corriendo Algoritmo...");
-		System.out.println();
+		//System.out.println("Corriendo Algoritmo...");
+		//System.out.println();
 		
 		Date systemTime = new Date();
 		//System.out.println(systemTime);
@@ -173,8 +173,8 @@ public class Service_Pedido {
 		
 		Pedido pedido = new Pedido(cantidadEnviar,cityPartida,cityFinal,fechaInicio,fechaFin,"OK");
 		
-		System.out.println("La hora Inca Kola es: " + base.hora_inicio);
-		System.out.println();
+		//System.out.println("La hora Inca Kola es: " + base.hora_inicio);
+		//System.out.println();
 		
 		Integer ICiudad = base.ciudad_ini;
 		Integer FCiudad = base.ciudad_fin;
@@ -284,7 +284,6 @@ public class Service_Pedido {
 		}
 		
 		
-		
 		List <Ruta> iterador = rutasPropuestas;
 		ArrayList capacidades = new ArrayList();
 		
@@ -292,7 +291,7 @@ public class Service_Pedido {
 		
 		while (pedido.cantidad > 0){
 			
-			limpiarVacios(iterador);
+			
 			
 			for(int i = 0; i < iterador.size();i++){
 			
@@ -300,11 +299,14 @@ public class Service_Pedido {
 				int factor = 0;
 				
 				Service_Pedido2 p = new Service_Pedido2();
+				System.out.println("####" + p.devolver_capacidad_real(iterador.get(i)));
 				capReal = p.devolver_capacidad_real(iterador.get(i));
 			
 				iterador.get(i).capacidad = capReal;
 				iterador.get(i).factor = factor;
 			}
+			
+			limpiarVacios(iterador);
 			
 			//System.out.println("HOla");
 			
@@ -445,8 +447,8 @@ public class Service_Pedido {
 		
 		/******Fin*******/
 		
-		System.out.println();
-		System.out.println("...Fin Algoritmo");
+		//System.out.println();
+		//System.out.println("...Fin Algoritmo");
 		
 		
 		
