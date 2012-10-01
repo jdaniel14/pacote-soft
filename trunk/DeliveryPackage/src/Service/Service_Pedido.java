@@ -298,7 +298,9 @@ public class Service_Pedido {
 		}
 		
 		for(int i = 0; i < iterador.size();i++){
+			//System.out.println("---------------------");
 			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i), pedido);
+			//System.out.println("FIN " + i + " : " + iterador.get(i).capacidad);
 		}
 		
 		for(int i = 0; i < iterador.size();i++){
