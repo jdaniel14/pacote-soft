@@ -15,7 +15,7 @@ public class DAO_Movimiento {
 		String f1 = sdf.format(movimiento.hora_entrada);
 		String f2 = sdf.format(movimiento.hora_salida);
 		
-		System.out.println("CANTIDAD DE MOV : " + movimiento.cantidad );
+		//System.out.println("CANTIDAD DE MOV : " + movimiento.cantidad );
 		String sql = 	" INSERT INTO Movimiento(almacen_id, envio_id, movimiento_hora_entrada, movimiento_hora_salida, movimiento_cantidad, movimiento_estado)" +
 						" VALUES (" + movimiento.almacen+ "," + movimiento.envio+ ",'" +f1+ "','" +f2+ "'," +movimiento.cantidad+ ",'" +movimiento.estado+ "')";
 		
