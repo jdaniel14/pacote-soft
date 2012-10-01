@@ -30,9 +30,9 @@ public class DAO_Pedido {
 				Statement st1 = conexion.conn.createStatement();
 				st1.executeQuery(sql);
 				ResultSet rs = st1.getResultSet();
-				System.out.println("AQUI");
+				//System.out.println("AQUI");
 				if(rs.next()){
-					System.out.println("AQUI xD");
+					//System.out.println("AQUI xD");
 					est = rs.getInt(1);
 					System.out.println(est);
 					return est;					
