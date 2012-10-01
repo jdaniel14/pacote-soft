@@ -106,7 +106,7 @@ public class Service_Pedido2 {
 			capac_almacen = capacidad_almacen(almacen_id, fech_ini, fech_fin);
 			//System.out.println("--> " + vuelo1.vuelo_id + ": " + capac_almacen);
 			
-			System.out.println("--> capac_real : " + capac_real +",  capac_almacen : "+capac_almacen + ", vuelo_capac :" + vuelo_capac);
+			//System.out.println("--> capac_real : " + capac_real +",  capac_almacen : "+capac_almacen + ", vuelo_capac :" + vuelo_capac);
 			
 			capac_real = Math.min(capac_real, Math.min(capac_almacen, vuelo_capac));
 		}
@@ -122,7 +122,7 @@ public class Service_Pedido2 {
 		int capac=0; int arr_cant[]; Fech_Capac f_c;
 		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin));
 		int tam_list = list_fech_capac.size();
-		System.out.println("tam_arr BUSCADO: " + tam_list);
+		//System.out.println("tam_arr BUSCADO: " + tam_list);
 		if(tam_list>0){
 			long min_fech=Long.MAX_VALUE, max_fech=Long.MIN_VALUE;
 			
@@ -173,7 +173,7 @@ public class Service_Pedido2 {
 		List <Vuelo> listVuelos = ruta.listaVuelos;
 		//vuelo1 = listVuelos.get(0);
 		//dao_vuelo.actualizar_capacidad(envio, vuelo1);
-		System.out.println("xD");
+		//System.out.println("xD");
 		int tamList = listVuelos.size();
 		for(int i=0; i<tamList-1; i++){
 			vuelo1 = listVuelos.get(i);
