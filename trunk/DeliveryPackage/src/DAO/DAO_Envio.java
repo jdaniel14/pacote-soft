@@ -22,6 +22,7 @@ public class DAO_Envio {
 			  
 				sql = 	" SELECT last_insert_id()";
 				Statement st1 = conexion.conn.createStatement();
+				st1.executeQuery(sql);
 				ResultSet rs = st1.getResultSet();
 				if(rs.next()){
 					est = rs.getInt(1);
