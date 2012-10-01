@@ -18,7 +18,7 @@ public class DAO_Pedido {
 		String sql;
 			
 		try{
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 				String f1 = sdf.format(pedido.fecha_registro);
 				String f2 = sdf.format(pedido.fecha_entrega);
 				sql = 	" INSERT INTO Pedido(pedido_cantidad, almacen_id_partida, almacen_id_entrega, pedido_fecha_registro, pedido_fecha_entrega, pedido_estado) " +

@@ -11,31 +11,38 @@ import Bean.Envio;
 import Bean.Vuelo;
 
 public class DAO_Vuelo {
-	public List<Vuelo> ListarVuelos() throws SQLException{
+	public List<Vuelo> ListarVuelos() {
 		List <Vuelo> listaVuelos = new ArrayList<Vuelo>();
 		Conexion conexion = new Conexion();
 		conexion.abrirConexion();
-		
-		Statement s = conexion.conn.createStatement();
-		s.executeQuery("SELECT * FROM Vuelo");
-		ResultSet rs = s.getResultSet();
-		
-		while(rs.next()){
-			
-			int vuelo_id = rs.getInt(1);
-			int capacidad = rs.getInt(2);
-			int capacidad_actual = rs.getInt(3);
-			int ciudad_ini = rs.getInt(4);
-			int ciudad_fin = rs.getInt(5);
-			Date hora_inicio = rs.getTimestamp(6);
-			Date hora_fin = rs.getTimestamp(7);
-			String estado = rs.getString(8);
-			
-			//System.out.println("capac: " + capacidad);
-			
-			Vuelo vuelo = new Vuelo(vuelo_id, ciudad_ini, ciudad_fin, hora_inicio, hora_fin, capacidad, capacidad_actual, estado);
-			listaVuelos.add(vuelo);
+		System.out.println("xD");
+		Statement s;
+		try {
+			s = conexion.conn.createStatement();
+			s.executeQuery("SELECT * FROM Vuelo");
+			ResultSet rs = s.getResultSet();
+			System.out.println("AQUI");
+			while(rs.next()){
+				System.out.println("??");	
+				int vuelo_id = rs.getInt(1);
+				int capacidad = rs.getInt(2);
+				int capacidad_actual = rs.getInt(3);
+				int ciudad_ini = rs.getInt(4);
+				int ciudad_fin = rs.getInt(5);
+				Date hora_inicio = rs.getTimestamp(6);
+				Date hora_fin = rs.getTimestamp(7);
+				String estado = rs.getString(8);
+				
+				//System.out.println("capac: " + capacidad);
+				
+				Vuelo vuelo = new Vuelo(vuelo_id, ciudad_ini, ciudad_fin, hora_inicio, hora_fin, capacidad, capacidad_actual, estado);
+				listaVuelos.add(vuelo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ERROR :" + e);
 		}
+		
 		
 		conexion.cerrarConexion();
 		return listaVuelos;
@@ -66,7 +73,7 @@ public class DAO_Vuelo {
 		conexion.abrirConexion();
 		
 		String sql = 	" UPDATE Vuelo " + 
-						" SET vuelo_capacidad_actual = vuelo_capacidad - " + envio.cantidad +
+						" SET vuelo_capacidad_actual = vuelo_capacidad_actual + " + envio.cantidad +
 						" WHERE vuelo_id="+vuelo.vuelo_id;
 		
 		try{
