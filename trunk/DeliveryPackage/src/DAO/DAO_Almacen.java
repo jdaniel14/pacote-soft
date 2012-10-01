@@ -3,6 +3,7 @@ package DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,12 +60,26 @@ public class DAO_Almacen {
 		try {
 			s = conexion.conn.createStatement();
 		
-			String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
+			/*String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
 							" FROM Movimiento " + 
 							" WHERE (('2012-09-13 17:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
 							" AND	('2012-09-13 20:00:00.0' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
 							" OR 	((movimiento_hora_entrada BETWEEN '2012-09-13 17:00:00.0' AND '2012-09-13 20:00:00.0' ) " + 
 							" AND	( movimiento_hora_salida BETWEEN '2012-09-13 17:00:00.0' AND '2012-09-13 20:00:00.0' ))" ;
+			System.out.println(sql);*/
+			 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+			String f1 = sdf.format(fech_ini);
+			String f2 = sdf.format(fech_fin);
+			
+			String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
+							" FROM Movimiento " + 
+							" WHERE (('"+f1+"' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
+							" AND	('"+f2+"' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
+							" OR 	((movimiento_hora_entrada BETWEEN '"+f1+"' AND '"+f2+"' ) " + 
+							" AND	( movimiento_hora_salida BETWEEN '"+f1+"' AND '"+f2+"' ))" ;
+			System.out.println(sql);
+			
 			s.executeQuery(sql);
 			ResultSet rs = s.getResultSet();
 			
