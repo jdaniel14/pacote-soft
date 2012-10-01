@@ -373,7 +373,7 @@ public class Service_Pedido3 {
 				iterador.get(0).cantidadEnviada = iterador.get(0).capacidad;
 				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
-				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
+				pedido.cantidad = pedido.cantidad - iterador.get(0).cantidadEnviada;
 				
 				rutaASeguir.add(iterador.get(0));
 				

@@ -331,9 +331,8 @@ public class Service_Pedido {
 			
 				int factor = 0;
 				
-				Service_Pedido2 p = new Service_Pedido2();
 				
-				iterador.get(i).capacidad = p.devolver_capacidad_real(iterador.get(i),pedido);
+				iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i),pedido);
 			
 				iterador.get(i).factor = factor;
 			}
@@ -371,7 +370,7 @@ public class Service_Pedido {
 				iterador.get(0).cantidadEnviada = iterador.get(0).capacidad;
 				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
-				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
+				pedido.cantidad = pedido.cantidad - iterador.get(0).cantidadEnviada;
 				
 				rutaASeguir.add(iterador.get(0));
 				
