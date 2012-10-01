@@ -127,7 +127,7 @@ public class Service_Pedido {
 				Ruta ruta1;
 				Ruta ruta2;
 				
-				if (rutasPropuestas.get(i).capacidad > rutasPropuestas.get(j).capacidad){
+				if (rutasPropuestas.get(i).capacidad < rutasPropuestas.get(j).capacidad){
 					ruta1 = rutasPropuestas.get(i);
 					ruta2 = rutasPropuestas.get(j);
 					
@@ -176,8 +176,8 @@ public class Service_Pedido {
 		//System.out.println("La hora Inca Kola es: " + base.hora_inicio);
 		//System.out.println();
 		
-		Integer ICiudad = base.ciudad_ini;
-		Integer FCiudad = base.ciudad_fin;
+		Integer ICiudad = pedido.almacen_partida;
+		Integer FCiudad = pedido.almacen_entrega;
 		
 		System.out.println("Pedido:");
 		System.out.println("Fecha inicio: " + pedido.fecha_registro);
@@ -217,7 +217,7 @@ public class Service_Pedido {
 			
 			/*si la tiene, agrego a la lista, sino sigo denuevo con el bucle*/
 			if (ICiudad == lectorVuelo.ciudad_ini){
-				if (base.hora_inicio.getTime() < lectorVuelo.hora_inicio.getTime()){
+				if (pedido.fecha_registro.getTime() < lectorVuelo.hora_inicio.getTime()){
 					
 					ArrayList opcionR = new ArrayList();
 				
@@ -289,43 +289,52 @@ public class Service_Pedido {
 		}
 		
 		
+		
 		List <Ruta> iterador = rutasPropuestas;
+		
+		if (iterador.size() == 0){
+			System.out.println("No se encontr— una ruta");
+			System.exit(1);
+		}
+		
 		
 		for(int i = 0; i < iterador.size();i++){
 			imprimirRuta((ArrayList)iterador.get(i).listaVuelos);
-			System.out.println("Capacidad Real: " + iterador.get(i).capacidad);
-			System.out.println("Factor Actual: " + iterador.get(i).factor);
+			System.out.println("Capacidad Real de la ruta: " + iterador.get(i).capacidad);
+			System.out.println("Factor Actual de la ruta: " + iterador.get(i).factor);
+		}
+		
+		for (int i = 0; i < iterador.size();i++){
+			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i),pedido);
 		}
 		
 		for(int i = 0; i < iterador.size();i++){
-			//System.out.println("---------------------");
-			iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i), pedido);
-			//System.out.println("FIN " + i + " : " + iterador.get(i).capacidad);
+			imprimirRuta((ArrayList)iterador.get(i).listaVuelos);
+			System.out.println("Capacidad Real de la ruta: " + iterador.get(i).capacidad);
+			System.out.println("Factor Actual de la ruta: " + iterador.get(i).factor);
 		}
 		
-		for(int i = 0; i < iterador.size();i++){
-			System.out.println("FIN : " + iterador.get(i).capacidad);
-		}
 		
-		/*
+		
 		ArrayList capacidades = new ArrayList();
 		
 		ArrayList rutaASeguir = new ArrayList();
 		
 		while (pedido.cantidad > 0){
 			
-			
+			if (iterador.size() == 0){
+				System.out.println("No se encontr— una ruta");
+				System.exit(1);
+			}
 			
 			for(int i = 0; i < iterador.size();i++){
 			
-				int capReal = 0;
 				int factor = 0;
 				
 				Service_Pedido2 p = new Service_Pedido2();
-				System.out.println("####" + p.devolver_capacidad_real(iterador.get(i)));
-				capReal = p.devolver_capacidad_real(iterador.get(i));
+				
+				iterador.get(i).capacidad = p.devolver_capacidad_real(iterador.get(i),pedido);
 			
-				iterador.get(i).capacidad = capReal;
 				iterador.get(i).factor = factor;
 			}
 			
@@ -334,39 +343,40 @@ public class Service_Pedido {
 			//System.out.println("HOla");
 			
 			ordenarRutasPropuestas(iterador);
-			System.out.println("tam " + iterador.size());
+			
+			//System.out.println("tam " + iterador.size());
+			
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
-				pedido.cantidad -= iterador.get(0).capacidad;
-				//en el atributo capacidad del pedido se esta guardando lo que se manda por esa ruta
-				iterador.get(0).capacidad = pedido.cantidad;
+				int temp ;
+				temp = iterador.get(0).capacidad;
+				iterador.get(0).cantidadEnviada = pedido.cantidad;
+				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
-				int v ;
-				v = iterador.get(0).capacidad;
-				capacidades.add(v);
 				rutaASeguir.add(iterador.get(0));
 				
+				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
+				
+				iterador.remove(0);
+				
 				System.out.println();
-				System.out.println("Se a–adi— una ruta para el pedido");
+				System.out.println("Se complet— el env’o");
 				System.out.println();
 				
 				
 				break;
 			}
 			else{
+				
+				iterador.get(0).cantidadEnviada = iterador.get(0).capacidad;
+				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
+				
 				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
 				
-				int v ;
-				v = iterador.get(0).capacidad;
-				capacidades.add(v);
-				
-				iterador.get(0).capacidad = pedido.cantidad;
 				rutaASeguir.add(iterador.get(0));
-				
+				iterador.remove(0);
+				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
 			}
-			
-			Service_Pedido2 p = new Service_Pedido2();
-			p.actualizacion_cache(pedido, iterador.get(0).capacidad, iterador.get(0));
 			
 		}
 		
@@ -374,7 +384,7 @@ public class Service_Pedido {
 		//Imprimo mi respuesta final
 		for (int i = 0; i < rutaASeguir.size();i++){
 			System.out.println();
-			System.out.println("Se esta enviado: "+ capacidades.get(i));
+			System.out.println("Se esta enviando: " + ((Ruta)rutaASeguir.get(i)).cantidadEnviada);
 			System.out.println();
 			imprimirRuta((ArrayList)(((Ruta)(rutaASeguir.get(i))).listaVuelos));
 		}
