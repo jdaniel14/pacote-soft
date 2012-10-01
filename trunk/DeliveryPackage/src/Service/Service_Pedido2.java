@@ -18,6 +18,7 @@ import DAO.DAO_Envio;
 import DAO.DAO_Movimiento;
 import DAO.DAO_Pedido;
 import DAO.DAO_Vuelo;
+import DAO.DAO_Vuelo_Mov;
 
 public class Service_Pedido2 {
 	private DAO_Almacen dao_almacen = new DAO_Almacen();
@@ -25,6 +26,7 @@ public class Service_Pedido2 {
 	private DAO_Pedido dao_pedido = new DAO_Pedido(); 
 	private DAO_Envio dao_envio = new DAO_Envio();
 	private DAO_Movimiento dao_movimiento = new DAO_Movimiento();
+	private DAO_Vuelo_Mov dao_vuelo_mov = new DAO_Vuelo_Mov();
 	
 	public void ConfirmarEnvio(){
 		ReservarAlmacen();
@@ -33,11 +35,7 @@ public class Service_Pedido2 {
 	public void ReservarAlmacen(){}
 	public void ReservarAvion(){}
 	
-	public List <Ruta> buscarRuta(Pedido pedido){		
-		//Pedido pedido = new Pedido();Love Unit
-		//pedido.almacen_partida = 1;
-		//pedido.almacen_entrega = 3;
-		//pedido.cantidad = 3;
+	public List <Ruta> buscarRuta(Pedido pedido){
 		
 		List <Ruta> listaRutas = null;
 		List <Ruta> listaRutasDev = new ArrayList <Ruta>();
@@ -83,35 +81,7 @@ public class Service_Pedido2 {
 		
 		return listaRutasDev;
 	}
-	
-	/*public int hallar_capacidad_real(Ruta ruta, Pedido pedido){
-		int capac, capac_final = Integer.MAX_VALUE; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
-		
-		List<Vuelo> listaVuelo = ruta.listaVuelos;
-		vuelo1 = listaVuelo.get(0);
-		
-		int tam = listaVuelo.size();
-		fech_ini = pedido.fecha_registro;
-		fech_fin = vuelo1.hora_inicio;
-		capac = this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
-		capac_final = Math.min(capac_final, Math.min(capac, vuelo1.capacidad_actual));
-		
-		for(int i=1; i<tam; i++){
-			vuelo1 = listaVuelo.get(i-1);
-			vuelo2 = listaVuelo.get(i);
-			fech_ini = vuelo1.hora_fin;
-			fech_fin = vuelo2.hora_inicio;
-			this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
-			capac_final = Math.min(capac_final, Math.min(capac, vuelo2.capacidad_actual));
-		}
-		vuelo2 = listaVuelo.get(tam-1);
-		fech_ini = vuelo2.hora_fin;
-		fech_fin = pedido.fecha_entrega;
-		this.dao_almacen.capacidad_almacen(fech_ini, fech_fin);
-		capac_final = Math.min(capac_final, Math.min(capac, vuelo2.capacidad_actual));
-		
-		return capac_final;
-	}*/
+
 	
 	public int devolver_capacidad_real(Ruta ruta, Pedido pedido) throws SQLException{
 		int capac_real=Integer.MAX_VALUE, vuelo_capac, capac_almacen, almacen_id; Date fech_ini, fech_fin; Vuelo vuelo1, vuelo2;
@@ -190,26 +160,25 @@ public class Service_Pedido2 {
 
 	public int actualizacion_cache(Pedido pedido, int cant, Ruta ruta){
 		int res= 0;Vuelo vuelo1, vuelo2;
-		int ult_pedido = dao_pedido.registrarPedido(pedido);
-		pedido.id = ult_pedido;
+		
 		int ult_envio = dao_envio.registrarEnvio(pedido, cant, "OK");
 		Envio envio = new Envio();
-		envio.id = ult_pedido;
+		envio.id = pedido.id;
 		envio.cantidad = cant;
 		
 		
 		List <Vuelo> listVuelos = ruta.listaVuelos;
 		vuelo1 = listVuelos.get(0);
 		dao_vuelo.actualizar_capacidad(envio, vuelo1);
-		
+		System.out.println("xD");
 		int tamList = listVuelos.size();
 		for(int i=1; i<tamList; i++){
 			vuelo1 = listVuelos.get(i-1);
 			vuelo2 = listVuelos.get(i);
 			Movimiento mov = new Movimiento(vuelo1.ciudad_fin, ult_envio, vuelo1.hora_fin, vuelo2.hora_inicio, cant, "OK");
 			dao_movimiento.insertar_Movimiento(mov);
-
 			dao_vuelo.actualizar_capacidad(envio, vuelo2);
+			//dao_vuelo_mov.insertar_Vuelo_Mov(new Vuelo_Mov());
 		}
 		
 		return res;
