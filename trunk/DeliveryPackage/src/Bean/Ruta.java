@@ -7,6 +7,7 @@ public class Ruta {
 	public int capacidad;
 	public int factor;
 	public Pedido pedido;
+	public int cantidadEnviada;
 	public Ruta(List <Vuelo> lista, int capac){
 		this.listaVuelos = lista;
 		this.capacidad = capac;
