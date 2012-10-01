@@ -119,7 +119,9 @@ public class Service_Pedido2 {
 		List<Vuelo> listVuelos = ruta.listaVuelos;
 		int tamListVuelos = listVuelos.size();
 		
-		//System.out.println("tam xD: " + tamListVuelos);
+		vuelo1=listVuelos.get(0);
+		capac_real = vuelo1.capacidad - vuelo1.capacidad_actual;
+		//System.out.println("numero de vuelos: " + tamListVuelos);
 		
 		//capac_real = capacidad_almacen(almacen_id, fech_ini, fech_fin);
 		
