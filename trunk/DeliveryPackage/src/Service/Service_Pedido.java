@@ -374,8 +374,9 @@ public class Service_Pedido {
 				pedido.cantidad = pedido.cantidad - iterador.get(0).capacidad;
 				
 				rutaASeguir.add(iterador.get(0));
-				iterador.remove(0);
+				
 				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
+				iterador.remove(0);
 			}
 			
 		}
