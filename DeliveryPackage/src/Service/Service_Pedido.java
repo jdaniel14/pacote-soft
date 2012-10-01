@@ -124,7 +124,7 @@ public class Service_Pedido {
 		int cityFinal = 5;
 		Date fechaInicio = new Date(112,8,13,10,0,0);
 		Date fechaFin = new Date(112,8,16,10,0,0);
-		int cantidadEnviar = 20;
+		int cantidadEnviar = 13;
 		
 		//Vuelo base = new Vuelo(0,cityPartida,cityFinal,fechaInicio,fechaFin,cantidadEnviar,0,"OK");
 		
@@ -244,7 +244,7 @@ public class Service_Pedido {
 			System.out.println("No se encontr— una ruta");
 			System.exit(1);
 		}
-		System.out.println("NUMERO DE RUTAS : " + iterador.size());
+		//System.out.println("NUMERO DE RUTAS : " + iterador.size());
 		
 		/*for(int i = 0; i < iterador.size();i++){
 			imprimirRuta((ArrayList)iterador.get(i).listaVuelos);
@@ -264,10 +264,10 @@ public class Service_Pedido {
 		
 		*/
 		
-		System.out.println("Registra Pedido");
+		//System.out.println("Registra Pedido");
 		int ult_pedido = dao_pedido.registrarPedido(pedido);
 		pedido.id = ult_pedido;
-		System.out.println("Pedido : " + ult_pedido);
+		//System.out.println("Pedido : " + ult_pedido);
 		
 		
 		ArrayList capacidades = new ArrayList();
@@ -277,7 +277,7 @@ public class Service_Pedido {
 		
 		int i_ruta =1;
 		while (pedido.cantidad > 0){
-			System.out.println("ESTAMOS EN LA RUTA : " + (i_ruta++));
+			//System.out.println("ESTAMOS EN LA RUTA : " + (i_ruta++));
 			if (iterador.size() == 0){
 				System.out.println("No se encontr— una ruta");
 				System.exit(1);
@@ -289,7 +289,7 @@ public class Service_Pedido {
 				
 				
 				iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i),pedido);
-				System.out.println("CAPAC REAL : " + iterador.get(i).capacidad);
+				//System.out.println("CAPAC REAL : " + iterador.get(i).capacidad);
 				iterador.get(i).factor = factor;
 			}
 			
@@ -300,18 +300,18 @@ public class Service_Pedido {
 			ordenarRutasPropuestas(iterador);
 			
 			//System.out.println("tam " + iterador.size());
-			int enviado=0;
+			//int enviado=0;
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
-				int temp ;
-				temp = iterador.get(0).capacidad;
+				//int temp ;
+				//temp = iterador.get(0).capacidad;
 				iterador.get(0).cantidadEnviada = pedido.cantidad;
 				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
 				rutaASeguir.add(iterador.get(0));
-				System.out.println("ANTES DE INSERT ---------------------");
+				//System.out.println("ANTES DE INSERT ---------------------");
 				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
-				enviado = iterador.get(0).cantidadEnviada;
+				//enviado = iterador.get(0).cantidadEnviada;
 				iterador.remove(0);
 				
 				System.out.println();
@@ -331,14 +331,14 @@ public class Service_Pedido {
 				rutaASeguir.add(iterador.get(0));
 				
 				//System.out.println(iterador.get(0).cantidadEnviada);
-				System.out.println("ANTES DE INSERT ---------------------");
+				//System.out.println("ANTES DE INSERT ---------------------");
 				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
-				System.out.println("SALIMOS DE ACTUALIZACION DE CACHE");
-				enviado = iterador.get(0).cantidadEnviada;
+				//System.out.println("SALIMOS DE ACTUALIZACION DE CACHE");
+				//enviado = iterador.get(0).cantidadEnviada;
 				iterador.remove(0);
 			}
-			System.out.println("CUANTO INSERTO : " + enviado);
-			System.out.println("CUANTO FALTA : " + pedido.cantidad);
+			//System.out.println("CUANTO INSERTO : " + enviado);
+			//System.out.println("CUANTO FALTA : " + pedido.cantidad);
 		}
 		
 		
