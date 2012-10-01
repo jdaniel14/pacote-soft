@@ -78,7 +78,7 @@ public class DAO_Almacen {
 							" AND	('"+f2+"' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
 							" OR 	((movimiento_hora_entrada BETWEEN '"+f1+"' AND '"+f2+"' ) " + 
 							" AND	( movimiento_hora_salida BETWEEN '"+f1+"' AND '"+f2+"' ))" ;
-			System.out.println(sql);
+			//System.out.println(sql);
 			
 			s.executeQuery(sql);
 			ResultSet rs = s.getResultSet();

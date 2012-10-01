@@ -15,15 +15,15 @@ public class DAO_Vuelo {
 		List <Vuelo> listaVuelos = new ArrayList<Vuelo>();
 		Conexion conexion = new Conexion();
 		conexion.abrirConexion();
-		System.out.println("xD");
+		// System.out.println("xD");
 		Statement s;
 		try {
 			s = conexion.conn.createStatement();
 			s.executeQuery("SELECT * FROM Vuelo");
 			ResultSet rs = s.getResultSet();
-			System.out.println("AQUI");
+			//System.out.println("AQUI");
 			while(rs.next()){
-				System.out.println("??");	
+				//System.out.println("??");	
 				int vuelo_id = rs.getInt(1);
 				int capacidad = rs.getInt(2);
 				int capacidad_actual = rs.getInt(3);
