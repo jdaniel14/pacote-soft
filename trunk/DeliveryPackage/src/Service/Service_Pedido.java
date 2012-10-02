@@ -106,10 +106,10 @@ public class Service_Pedido {
 	}
 	
 	public void imprimirPedido(Pedido pedido){
-		System.out.println("DATOS DEL PEDIDO");
-		System.out.println("PedidoID : " + pedido.id + ", Cantidad : " + pedido.cantidad);
-		System.out.println("Almacen Ini : " + pedido.almacen_partida + ", Hora Ini : " + pedido.fecha_registro);
-		System.out.println("Almacen Fin : " + pedido.almacen_entrega + ", Hora Fin : " + pedido.fecha_entrega);
+		System.out.println("Datos del Pedido");
+		System.out.println("Pedido(ID) : " + pedido.id + ", Cantidad : " + pedido.cantidad);
+		System.out.println("Almacen de inicio : " + pedido.almacen_partida + ", Hora de inicio : " + pedido.fecha_registro);
+		System.out.println("Almacen dinal : " + pedido.almacen_entrega + ", Hora final : " + pedido.fecha_entrega);
 		
 	}
 	
@@ -174,7 +174,7 @@ public class Service_Pedido {
 				}
 			}
 		}
-		int numero_rutas_examinar = 0;
+
 		while (!rutas.isEmpty()){	
 			//Cojo la lista de vuelos que toca la primera ruta como opcion
 			lectorListaRutas = (ArrayList)rutas.get(0);
@@ -193,7 +193,7 @@ public class Service_Pedido {
 				opcionR.listaVuelos = copiarListaVuelos(lectorListaRutas);
 				rutasPropuestas.add(opcionR);
 				//imprimirRuta(lectorListaRutas);
-				numero_rutas_examinar++;
+				
 			}
 			
 			for(int i = 0; i < listaVuelos.size(); i++){
@@ -213,6 +213,8 @@ public class Service_Pedido {
 				}	
 			}
 		}
+		
+		//Segunda Parte del algoritmo
 		List <Ruta> iterador = rutasPropuestas;
 		
 		if (iterador.size() == 0){
@@ -220,20 +222,13 @@ public class Service_Pedido {
 			System.out.println("No se encontro posibles rutas");
 			return;
 		}
-	
 		
+		//Registro temporal del pedido
 		int ult_pedido = dao_pedido.registrarPedido(pedido);
 		pedido.id = ult_pedido;
-		//System.out.println("Pedido : " + ult_pedido);
-		
-		
-		//ArrayList capacidades = new ArrayList();
-		
-		//ArrayList rutaASeguir = new ArrayList();
-		
-		
-		//int i_ruta =1;
+
 		while (pedido.cantidad > 0){
+			
 			if (iterador.size() == 0){
 				System.out.println("No se encontr— una ruta");
 				estado = 0;
@@ -249,9 +244,10 @@ public class Service_Pedido {
 			limpiarVacios(iterador);
 			ordenarRutasPropuestas(iterador);
 
-			if(iterador.size()==0){
-				System.out.println("Vacio");
-				continue;
+			if (iterador.size() == 0){
+				System.out.println("No se encontr— una ruta");
+				estado = 0;
+				return;
 			}
 
 			Ruta ruta_ins; 
@@ -262,21 +258,14 @@ public class Service_Pedido {
 				iterador.get(0).cantidadEnviada = pedido.cantidad;
 				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
-
-				//RutasDeViaje.add(iterador.get(0));
-				
 				envio_insertar = metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
 				
 				ruta_ins = iterador.get(0);
 				ruta_ins.envio = envio_insertar;
 				RutasDeViaje.add(ruta_ins);
-
 				
 				iterador.remove(0);
 				
-				//System.out.println();
-				//System.out.println("Se complet— el env’o");
-				//System.out.println();
 				estado = 1;
 				
 				break;
@@ -294,24 +283,17 @@ public class Service_Pedido {
 				ruta_ins.envio = envio_insertar;
 				RutasDeViaje.add(ruta_ins);
 				
-				
-
-
 				iterador.remove(0);
 			}
 
-
 		}
 		
-		
-		
-		
 		if(estado==1){
-			System.out.println("SE ENCONTRO RUTA :)");
+			System.out.println("Ruta Encontrada");
 			imprimirRuta(RutasDeViaje, pedido);
 		}
 		else{
-			System.out.println("NO SE ENCONTRO RUTA :(");
+			System.out.println("No se encontr— ruta");
 		}
 	
 	}
