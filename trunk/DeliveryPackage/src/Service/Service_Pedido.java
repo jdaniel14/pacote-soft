@@ -9,13 +9,7 @@ import DAO.*;
 public class Service_Pedido {
 	private DAO_Pedido dao_pedido = new DAO_Pedido();
 	private DAO_Vuelo dao_vuelo = new DAO_Vuelo();
-	public void ConfirmarEnvio(){
-		ReservarAlmacen();
-		ReservarAvion();
-		//dao_pedido.registrarPedido(new Pedido());
-	}
-	public void ReservarAlmacen(){}
-	public void ReservarAvion(){}
+
 	public static void imprimirVuelo(Vuelo flight){
 		/*Imprime los datos del vuelo*/
 		System.out.println("Nœmero de vuelo: " + flight.vuelo_id);
