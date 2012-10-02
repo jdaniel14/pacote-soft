@@ -275,7 +275,7 @@ public class Service_Pedido {
 		ArrayList rutaASeguir = new ArrayList();
 		
 		
-		int i_ruta =1;
+		//int i_ruta =1;
 		while (pedido.cantidad > 0){
 			//System.out.println("ESTAMOS EN LA RUTA : " + (i_ruta++));
 			if (iterador.size() == 0){
