@@ -124,7 +124,7 @@ public class Service_Pedido {
 		int cityFinal = 5;
 		Date fechaInicio = new Date(112,8,13,10,0,0);
 		Date fechaFin = new Date(112,8,16,10,0,0);
-		int cantidadEnviar = 13;
+		int cantidadEnviar = 7;
 		
 		//Vuelo base = new Vuelo(0,cityPartida,cityFinal,fechaInicio,fechaFin,cantidadEnviar,0,"OK");
 		
@@ -300,7 +300,7 @@ public class Service_Pedido {
 			ordenarRutasPropuestas(iterador);
 			
 			//System.out.println("tam " + iterador.size());
-			//int enviado=0;
+			int enviado=0;
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
 				//int temp ;
@@ -311,7 +311,7 @@ public class Service_Pedido {
 				rutaASeguir.add(iterador.get(0));
 				//System.out.println("ANTES DE INSERT ---------------------");
 				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
-				//enviado = iterador.get(0).cantidadEnviada;
+				enviado = iterador.get(0).cantidadEnviada;
 				iterador.remove(0);
 				
 				System.out.println();
@@ -334,10 +334,10 @@ public class Service_Pedido {
 				//System.out.println("ANTES DE INSERT ---------------------");
 				metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
 				//System.out.println("SALIMOS DE ACTUALIZACION DE CACHE");
-				//enviado = iterador.get(0).cantidadEnviada;
+				enviado = iterador.get(0).cantidadEnviada;
 				iterador.remove(0);
 			}
-			//System.out.println("CUANTO INSERTO : " + enviado);
+			System.out.println("CUANTO INSERTO : " + enviado);
 			//System.out.println("CUANTO FALTA : " + pedido.cantidad);
 		}
 		

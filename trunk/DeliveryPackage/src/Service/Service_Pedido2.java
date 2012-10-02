@@ -122,7 +122,8 @@ public class Service_Pedido2 {
 		int capac=0; int arr_cant[]; Fech_Capac f_c;
 		List<Fech_Capac> list_fech_capac = (this.dao_almacen.consultar_movimientos_rango(almacen_id, fech_ini, fech_fin));
 		int tam_list = list_fech_capac.size();
-		//System.out.println("tam_arr BUSCADO: " + tam_list);
+		System.out.println("INI: " + fech_ini + ", FIN: "+ fech_fin );
+		
 		if(tam_list>0){
 			long min_fech=Long.MAX_VALUE, max_fech=Long.MIN_VALUE;
 			
@@ -135,6 +136,8 @@ public class Service_Pedido2 {
 			Long tam_arr = (max_fech - min_fech)/3600000;
 			arr_cant = new int[(int)(long)tam_arr];
 			
+			
+			
 			//System.out.println("tam_arr : " + tam_arr);
 			
 			Long ii, ff;
@@ -142,6 +145,7 @@ public class Service_Pedido2 {
 				f_c = list_fech_capac.get(i);
 				ii = f_c.fech_ini.getTime();
 				ff = f_c.fech_fin.getTime();
+				System.out.println("ini : " + f_c.fech_ini + " ,  fin : " + f_c.fech_fin);
 				int x = (int)(long)(ii - min_fech)/3600000;
 				int y = (int)(long)((tam_arr - (max_fech - ff)/3600000));
 				//System.out.println("x:" + x + " y: " + y + " " + f_c.fech_ini);
@@ -149,14 +153,18 @@ public class Service_Pedido2 {
 					arr_cant[var] += f_c.cant;
 				}
 			}
-			
+			for(int i=0; i<tam_arr; i++){
+				System.out.print(arr_cant[i] + " ");
+			}
+			System.out.println();
+			System.out.println("tanm_list : " + tam_list + ", tam_arr : " + tam_arr);
 			capac = Integer.MIN_VALUE;
-			for(int i=0; i<tam_list; i++){
+			for(int i=0; i<tam_arr; i++){
 				//System.out.println( "cant " + arr_cant[i]);
 				capac = Math.max(capac, arr_cant[i]);
 			}
 		}
-		//System.out.println("%%%%%%" + (dao_almacen.capacidad_almacen(almacen_id) - capac));
+		System.out.println("capacidad:" + capac + ", almacen :" + dao_almacen.capacidad_almacen(almacen_id) +", alm_id :" + almacen_id);
 		return dao_almacen.capacidad_almacen(almacen_id) - capac;
 		//PANCHO MARICON
 	}
