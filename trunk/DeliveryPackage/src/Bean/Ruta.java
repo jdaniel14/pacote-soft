@@ -6,7 +6,8 @@ public class Ruta {
 	public List <Vuelo> listaVuelos;
 	public int capacidad;
 	public int factor;
-	public Pedido pedido;
+	//public Pedido pedido;
+	public Envio envio;
 	public int cantidadEnviada;
 	public Ruta(List <Vuelo> lista, int capac){
 		this.listaVuelos = lista;
