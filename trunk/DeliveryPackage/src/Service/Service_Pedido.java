@@ -81,6 +81,39 @@ public class Service_Pedido {
 		}
 	}
 	
+	public void imprimirRuta(List<Ruta> listaRutas, Pedido pedido){
+		imprimirPedido(pedido);
+		int tamList = listaRutas.size();
+		System.out.println("Lista de Envios:");
+		System.out.println();
+		
+		System.out.println("**********************************************************************");
+		for(int i=0; i<tamList; i++){
+			Ruta ruta = listaRutas.get(i);
+			//System.out.println("--------------------------------------------------------------");
+			System.out.println("EnvioID : " + ruta.envio.id + ", Cant : " + ruta.envio.cantidad);
+			System.out.println();
+			List<Vuelo> listVuelos = ruta.listaVuelos;
+			int tamVuel = listVuelos.size();
+			for(int j=0;j<tamVuel; j++){
+				Vuelo vuelo = listVuelos.get(j); 
+				System.out.println("VueloID : " + vuelo.vuelo_id);
+				System.out.println("--> Almacen Ini : " + vuelo.ciudad_ini + ", Hora Ini : " + vuelo.hora_inicio);
+				System.out.println("--> Almacen Fin : " + vuelo.ciudad_fin + ", Hora Fin : " + vuelo.hora_fin);
+			}
+			System.out.println("--------------------------------------------------------------");
+		}
+	}
+	
+	public void imprimirPedido(Pedido pedido){
+		System.out.println("DATOS DEL PEDIDO");
+		System.out.println("PedidoID : " + pedido.id + ", Cantidad : " + pedido.cantidad);
+		System.out.println("Almacen Ini : " + pedido.almacen_partida + ", Hora Ini : " + pedido.fecha_registro);
+		System.out.println("Almacen Fin : " + pedido.almacen_entrega + ", Hora Fin : " + pedido.fecha_entrega);
+		
+	}
+	
+	
 	public void buscarRuta() throws SQLException{	
 		List<Ruta> RutasDeViaje = new ArrayList<Ruta>();
 		int estado = 0;
@@ -187,12 +220,8 @@ public class Service_Pedido {
 			System.out.println("No se encontro posibles rutas");
 			return;
 		}
+	
 		
-		//System.out.println("-------------------------------------------------------");
-		//System.out.println("NUMERO DE RUTAS POR EXAMINAR : " + numero_rutas_examinar);
-		//System.out.println("-------------------------------------------------------");
-				
-		//Registramos TEMPORALMENTE EL PEDIDO; AUN NO SABEMOS SI SE PODRç TRANSPORTAR
 		int ult_pedido = dao_pedido.registrarPedido(pedido);
 		pedido.id = ult_pedido;
 		//System.out.println("Pedido : " + ult_pedido);
@@ -209,15 +238,14 @@ public class Service_Pedido {
 				System.out.println("No se encontr— una ruta");
 				estado = 0;
 				return;
-				//System.exit(1);
 			}
-			//System.out.println("ESTAMOS EN LA RUTA : " + (i_ruta++));
-			//SE VUELVE A CALCULAR TO_DO DE NUEVO PARA VER COMO HA CAMBIADO DESPUES DE UN INGRESO
+			
 			for(int i = 0; i < iterador.size();i++){
 				int factor = 0;
 				iterador.get(i).capacidad = metodos.devolver_capacidad_real(iterador.get(i),pedido);
 				iterador.get(i).factor = factor;
 			}
+			
 			limpiarVacios(iterador);
 			ordenarRutasPropuestas(iterador);
 
@@ -225,17 +253,6 @@ public class Service_Pedido {
 				System.out.println("Vacio");
 				continue;
 			}
-			//System.out.println("LA CAPACIDAD A INSERTAR --> " + iterador.get(0).capacidad);
-			//int para_enviar=iterador.get(0).capacidad;
-			//if(para_enviar==0) {
-				//System.out.println("LA CAPACIDAD ES DE 0");
-			//	iterador.remove(0);
-			//	continue;
-				
-			//}
-			//IMPRIMIR RUTA
-			//imprimirRuta((ArrayList)iterador.get(0).listaVuelos);
-			
 
 			Ruta ruta_ins; 
 			Envio envio_insertar;
@@ -292,40 +309,17 @@ public class Service_Pedido {
 		if(estado==1){
 			System.out.println("SE ENCONTRO RUTA :)");
 			imprimirRuta(RutasDeViaje, pedido);
-		}else{
+		}
+		else{
 			System.out.println("NO SE ENCONTRO RUTA :(");
 		}
-		//return RutasDeViaje;
-	}
-	public void imprimirRuta(List<Ruta> listaRutas, Pedido pedido){
-		imprimirPedido(pedido);
-		int tamList = listaRutas.size();
-		System.out.println("Lista de Envios:");
-		System.out.println();
-		
-		System.out.println("**********************************************************************");
-		for(int i=0; i<tamList; i++){
-			Ruta ruta = listaRutas.get(i);
-			//System.out.println("--------------------------------------------------------------");
-			System.out.println("EnvioID : " + ruta.envio.id + ", Cant : " + ruta.envio.cantidad);
-			System.out.println();
-			List<Vuelo> listVuelos = ruta.listaVuelos;
-			int tamVuel = listVuelos.size();
-			for(int j=0;j<tamVuel; j++){
-				Vuelo vuelo = listVuelos.get(j); 
-				System.out.println("VueloID : " + vuelo.vuelo_id);
-				System.out.println("--> Almacen Ini : " + vuelo.ciudad_ini + ", Hora Ini : " + vuelo.hora_inicio);
-				System.out.println("--> Almacen Fin : " + vuelo.ciudad_fin + ", Hora Fin : " + vuelo.hora_fin);
-			}
-			System.out.println("--------------------------------------------------------------");
-		}
+	
 	}
 	
-	public void imprimirPedido(Pedido pedido){
-		System.out.println("DATOS DEL PEDIDO");
-		System.out.println("PedidoID : " + pedido.id + ", Cantidad : " + pedido.cantidad);
-		System.out.println("Almacen Ini : " + pedido.almacen_partida + ", Hora Ini : " + pedido.fecha_registro);
-		System.out.println("Almacen Fin : " + pedido.almacen_entrega + ", Hora Fin : " + pedido.fecha_entrega);
-		
-	}
+	
+	
+	
+	
+	
+	
 }
