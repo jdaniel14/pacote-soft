@@ -226,22 +226,26 @@ public class Service_Pedido {
 				continue;
 			}
 			//System.out.println("LA CAPACIDAD A INSERTAR --> " + iterador.get(0).capacidad);
-			int para_enviar=iterador.get(0).capacidad;
-			if(para_enviar==0) {
+			//int para_enviar=iterador.get(0).capacidad;
+			//if(para_enviar==0) {
 				//System.out.println("LA CAPACIDAD ES DE 0");
-				iterador.remove(0);
-				continue;
+			//	iterador.remove(0);
+			//	continue;
 				
-			}
+			//}
 			//IMPRIMIR RUTA
 			//imprimirRuta((ArrayList)iterador.get(0).listaVuelos);
 			
-			Ruta ruta_ins; Envio envio_insertar;
+
+			Ruta ruta_ins; 
+			Envio envio_insertar;
+
 			if (pedido.cantidad <= iterador.get(0).capacidad){
 				
 				iterador.get(0).cantidadEnviada = pedido.cantidad;
 				iterador.get(0).capacidad -= iterador.get(0).cantidadEnviada;
 				
+
 				//RutasDeViaje.add(iterador.get(0));
 				
 				envio_insertar = metodos.actualizacion_cache(pedido, iterador.get(0).cantidadEnviada, iterador.get(0));
@@ -249,6 +253,7 @@ public class Service_Pedido {
 				ruta_ins = iterador.get(0);
 				ruta_ins.envio = envio_insertar;
 				RutasDeViaje.add(ruta_ins);
+
 				
 				iterador.remove(0);
 				
@@ -273,10 +278,17 @@ public class Service_Pedido {
 				RutasDeViaje.add(ruta_ins);
 				
 				
-				
+
+
 				iterador.remove(0);
 			}
+
+
 		}
+		
+		
+		
+		
 		if(estado==1){
 			System.out.println("SE ENCONTRO RUTA :)");
 			imprimirRuta(RutasDeViaje, pedido);
