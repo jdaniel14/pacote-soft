@@ -34,7 +34,7 @@ public class DAO_Pedido {
 				if(rs.next()){
 					//System.out.println("AQUI xD");
 					est = rs.getInt(1);
-					System.out.println(est);
+					//System.out.println(est);
 					return est;					
 				}
 		}

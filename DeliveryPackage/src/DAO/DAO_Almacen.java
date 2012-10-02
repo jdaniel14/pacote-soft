@@ -72,7 +72,7 @@ public class DAO_Almacen {
 			String f1 = sdf.format(fech_ini);
 			String f2 = sdf.format(fech_fin);
 			
-			String sql = 	" SELECT movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
+			String sql = 	" SELECT almacen_id, movimiento_cantidad, movimiento_id, movimiento_hora_entrada, movimiento_hora_salida " +
 							" FROM Movimiento " + 
 							" WHERE (('"+f1+"' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida ) " +
 							" AND	('"+f2+"' BETWEEN movimiento_hora_entrada AND movimiento_hora_salida )) " +
@@ -84,14 +84,15 @@ public class DAO_Almacen {
 			ResultSet rs = s.getResultSet();
 			
 			while(rs.next()){
-				int cant = rs.getInt(1);
-				int mov_id = rs.getInt(2);
-				Date f_ini = rs.getTimestamp(3);
-				Date f_fin = rs.getTimestamp(4);
+				int alm = rs.getInt(1);
+				int cant = rs.getInt(2);
+				int mov_id = rs.getInt(3);
+				Date f_ini = rs.getTimestamp(4);
+				Date f_fin = rs.getTimestamp(5);
 				
 				//int actual=rs.getInt(3);
 				
-				Fech_Capac fech_capac = new Fech_Capac(cant, mov_id, f_ini, f_fin);
+				Fech_Capac fech_capac = new Fech_Capac(alm, cant, mov_id, f_ini, f_fin);
 				list_fech_capac.add(fech_capac);
 			}
 			
